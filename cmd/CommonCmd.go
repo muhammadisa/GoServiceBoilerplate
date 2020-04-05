@@ -25,9 +25,12 @@ var (
 			}
 
 			lastKeyValue, newKeyValue, err := envkeyeditor.EnvKeyEditor("DEBUG", strconv.FormatBool(value))
-
-			fmt.Println(fmt.Sprintf("last DEBUG value %s", lastKeyValue))
-			fmt.Println(fmt.Sprintf("DEBUG switched to %s", newKeyValue))
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println(fmt.Sprintf("last DEBUG value %s", lastKeyValue))
+				fmt.Println(fmt.Sprintf("DEBUG switched to %s", newKeyValue))
+			}
 		},
 	}
 )
@@ -50,13 +53,13 @@ var (
 
 			n, err := strconv.Atoi(args[1])
 			if err != nil {
-				fmt.Println(fmt.Errorf("Char length can't be string: %v", err))
+				fmt.Println(fmt.Errorf("Number Digit length can't be string: %v", err))
 			}
 			nums = n
 
 			s, err := strconv.Atoi(args[2])
 			if err != nil {
-				fmt.Println(fmt.Errorf("Char length can't be string: %v", err))
+				fmt.Println(fmt.Errorf("Symbol length can't be string: %v", err))
 			}
 			syms = s
 
@@ -66,10 +69,13 @@ var (
 			}
 
 			lastKeyValue, newKeyValue, err := envkeyeditor.EnvKeyEditor("SECRET", generatedPassword)
-
-			fmt.Println(fmt.Sprintf("SECRET generated with combination %d chars, %d nums, %d syms", chars, nums, syms))
-			fmt.Println(fmt.Sprintf("last SECRET value %s", lastKeyValue))
-			fmt.Println(fmt.Sprintf("SECRET switched to %s", newKeyValue))
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println(fmt.Sprintf("SECRET generated with combination %d chars, %d nums, %d syms", chars, nums, syms))
+				fmt.Println(fmt.Sprintf("last SECRET value %s", lastKeyValue))
+				fmt.Println(fmt.Sprintf("SECRET switched to %s", newKeyValue))
+			}
 		},
 	}
 )

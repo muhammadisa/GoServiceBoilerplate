@@ -9,6 +9,10 @@ import (
 
 // EnvKeyEditor edit key inside .env file
 func EnvKeyEditor(targetKey string, newKeyValue string) (string, string, error) {
+	if targetKey == "" || newKeyValue == "" {
+		return "", "", fmt.Errorf("TargetKey or NewKeyValue can't be blank string")
+	}
+
 	var myEnv map[string]string
 	myEnv, err := godotenv.Read()
 	if err != nil {
