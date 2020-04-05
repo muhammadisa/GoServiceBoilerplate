@@ -97,7 +97,25 @@ var (
 				fmt.Println(err)
 			}
 
-			lastKeyValue, newKeyValue, err := envkeyeditor.EnvKeyEditor("SECRET", generatedPassword)
+			lastKeyValue, newKeyValue, err := envkeyeditor.EnvKeyEditor("API_SECRET", generatedPassword)
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println(fmt.Sprintf("API_SECRET generated with combination %d chars, %d nums, %d syms", chars, nums, syms))
+				fmt.Println(fmt.Sprintf("last API_SECRET value %s", lastKeyValue))
+				fmt.Println(fmt.Sprintf("API_SECRET switched to %s", newKeyValue))
+			}
+
+			lastKeyValue, newKeyValue, err = envkeyeditor.EnvKeyEditor("TEST_API_SECRET", generatedPassword)
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println(fmt.Sprintf("TEST_API_SECRET generated with combination %d chars, %d nums, %d syms", chars, nums, syms))
+				fmt.Println(fmt.Sprintf("last TEST_API_SECRET value %s", lastKeyValue))
+				fmt.Println(fmt.Sprintf("TEST_API_SECRET switched to %s", newKeyValue))
+			}
+
+			lastKeyValue, newKeyValue, err = envkeyeditor.EnvKeyEditor("SECRET", generatedPassword)
 			if err != nil {
 				fmt.Println(err)
 			} else {

@@ -10,13 +10,14 @@ require (
 	github.com/jinzhu/gorm v1.9.12
 	github.com/joho/godotenv v1.3.0
 	github.com/labstack/echo v3.3.10+incompatible
-	github.com/labstack/echo/v4 v4.1.16 // indirect
+	github.com/labstack/echo/v4 v4.1.16
 	github.com/lib/pq v1.3.0 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/rs/cors v1.7.0 // indirect
 	github.com/sethvargo/go-password v0.1.3
 	github.com/spf13/cobra v0.0.7
 	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/sqs/goreturns v0.0.0-20181028201513-538ac6014518 // indirect
 	golang.org/x/crypto v0.0.0-20200403201458-baeed622b8d8 // indirect
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e // indirect
 	golang.org/x/sys v0.0.0-20200331124033-c3d80250170d // indirect

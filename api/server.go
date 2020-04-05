@@ -7,7 +7,10 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	_middleware "github.com/muhammadisa/restful-api-boilerplate/api/middleware"
+	"github.com/muhammadisa/restful-api-boilerplate/api/response"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/dbconnector"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/message"
 )
@@ -45,15 +48,20 @@ func Run() {
 	}
 
 	e := echo.New()
+	middL := _middleware.InitMiddleware()
+	e.Use(middL.CORS)
+	e.Use(middleware.Recover())
+
 	e.GET("/", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, map[string]string{
-			"status": "200",
-			"message": message.Message{
-				IsSuccess:       true,
+		return c.JSON(http.StatusOK, response.Response{
+			StatusCode: http.StatusOK,
+			Message: message.Message{
+				IsSuccess:       false,
 				HTTPMethod:      "GET",
 				TargetModelName: "home page",
 				WithID:          0,
 			}.GenerateMessage(),
+			Data: "Server is Up",
 		})
 	})
 
