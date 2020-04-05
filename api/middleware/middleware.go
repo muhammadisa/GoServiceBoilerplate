@@ -7,6 +7,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/muhammadisa/restful-api-boilerplate/api/response"
 )
 
 // GoMiddleware struct
@@ -33,8 +34,10 @@ func (m *GoMiddleware) APISecretKeyCheck(next echo.HandlerFunc) echo.HandlerFunc
 		// Checking error for loading .env file
 		if err != nil {
 			log.Fatalf("Error getting env, not coming through %v", err)
-			c.JSON(http.StatusInternalServerError, map[string]string{
-				"status": "Internal Server Error",
+			c.JSON(http.StatusInternalServerError, response.Response{
+				StatusCode: http.StatusInternalServerError,
+				Message:    "Internal Server Error",
+				Data:       nil,
 			})
 			return nil
 		}
@@ -42,8 +45,10 @@ func (m *GoMiddleware) APISecretKeyCheck(next echo.HandlerFunc) echo.HandlerFunc
 		// Checking API Secret Key
 		apiSecretKey := os.Getenv("API_SECRET")
 		if secretKey != apiSecretKey {
-			c.JSON(http.StatusUnauthorized, map[string]string{
-				"status": "Unauthorized",
+			c.JSON(http.StatusUnauthorized, response.Response{
+				StatusCode: http.StatusUnauthorized,
+				Message:    "Unauthorized",
+				Data:       nil,
 			})
 			return nil
 		}
