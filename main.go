@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/muhammadisa/restful-api-boilerplate/cmd"
+)
 
 func main() {
-	fmt.Println("Go Restful Api Boilerplate Successfully Executed")
+	cmd.Execute()
 }
