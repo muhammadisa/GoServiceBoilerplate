@@ -11,6 +11,11 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// IDatabase interface
+type IDatabase interface {
+	Connect() (*gorm.DB, error)
+}
+
 // DBCredential struct
 type DBCredential struct {
 	DBDriver     string
@@ -22,13 +27,8 @@ type DBCredential struct {
 	DBPathSqlite string
 }
 
-// IDatabase interface
-type IDatabase interface {
-	Connect() (*gorm.DB, error)
-}
-
 // Connect connect to selected database dialect
-func (dbCredential *DBCredential) Connect() (*gorm.DB, error) {
+func (dbCredential DBCredential) Connect() (*gorm.DB, error) {
 	var db *gorm.DB
 	var err error
 	var connectionString string

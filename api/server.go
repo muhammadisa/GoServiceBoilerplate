@@ -3,10 +3,13 @@ package api
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/labstack/echo"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/dbconnector"
+	"github.com/muhammadisa/restful-api-boilerplate/api/utils/message"
 )
 
 // Run used for start connecting to selected database
@@ -28,7 +31,7 @@ func Run() {
 	dbPass := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
 
-	database := dbconnector.DBCredential{
+	_, err = dbconnector.DBCredential{
 		DBDriver:     dbDriver,
 		DBHost:       dbHost,
 		DBPort:       dbPort,
@@ -36,11 +39,25 @@ func Run() {
 		DBPassword:   dbPass,
 		DBName:       dbName,
 		DBPathSqlite: "",
-	}
-
-	_, err = database.Connect()
+	}.Connect()
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	e := echo.New()
+	e.GET("/", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, map[string]string{
+			"status": "200",
+			"message": message.Message{
+				IsSuccess:       true,
+				HTTPMethod:      "GET",
+				TargetModelName: "home page",
+				WithID:          0,
+			}.GenerateMessage(),
+		})
+	})
+
+	// Start echo web framework
+	log.Fatal(e.Start(":8080"))
 
 }
