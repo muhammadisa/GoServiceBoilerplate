@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -38,5 +39,8 @@ func Run() {
 	}
 
 	_, err = database.Connect()
+	if err != nil {
+		fmt.Println(err)
+	}
 
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/muhammadisa/restful-api-boilerplate/api"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/envkeyeditor"
 	"github.com/sethvargo/go-password/password"
 	"github.com/spf13/cobra"
@@ -108,8 +109,21 @@ var (
 	}
 )
 
+var (
+	webStartCmd = &cobra.Command{
+		Use:     "web-start",
+		Short:   "Start the service",
+		Long:    "Start the service, and connecting to database credential",
+		Aliases: []string{"web-start"},
+		Run: func(cmd *cobra.Command, args []string) {
+			api.Run()
+		},
+	}
+)
+
 func init() {
 	cmd.AddCommand(setupDatabase)
 	cmd.AddCommand(switchDebug)
 	cmd.AddCommand(generateSecretKey)
+	cmd.AddCommand(webStartCmd)
 }

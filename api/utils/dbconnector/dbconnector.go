@@ -3,6 +3,11 @@ package dbconnector
 import (
 	"fmt"
 
+	_ "github.com/jinzhu/gorm/dialects/mssql"    // MSSql Driver
+	_ "github.com/jinzhu/gorm/dialects/mysql"    // MySql Driver
+	_ "github.com/jinzhu/gorm/dialects/postgres" // Postgres Driver
+	_ "github.com/jinzhu/gorm/dialects/sqlite"   // Sqlite Driver
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -19,14 +24,7 @@ type DBCredential struct {
 
 // IDatabase interface
 type IDatabase interface {
-	Connect(
-		dbDriver string,
-		dbHost string,
-		dbPort string,
-		dbUser string,
-		dbPass string,
-		dbName string,
-	) (*gorm.DB, error)
+	Connect() (*gorm.DB, error)
 }
 
 // Connect connect to selected database dialect
@@ -89,5 +87,6 @@ func (dbCredential *DBCredential) Connect() (*gorm.DB, error) {
 		return &gorm.DB{}, err
 	}
 
+	fmt.Println("Database Connected")
 	return db, nil
 }
