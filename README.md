@@ -1,7 +1,12 @@
 # GO RESTFUL API BOILERPLATE
 
+UNDER DEVELOPMENT
+
+
+
 ## REQUIRED MOD
 
+```bash
 go get -u github.com/go-playground/validator/v10
 go get -u github.com/labstack/echo/v4
 go get -u github.com/rs/cors
@@ -13,3 +18,4 @@ go get -u github.com/joho/godotenv
 go get -u github.com/jinzhu/gorm
 go get -u github.com/biezhi/gorm-paginator/pagination
 go get -u gopkg.in/go-playground/assert.v1
+```
