@@ -1,0 +1,13 @@
+# ide
+/.idea/*
+.vscode
+
+# environment
+.env
+
+# executeable
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
