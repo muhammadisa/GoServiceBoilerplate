@@ -10,6 +10,34 @@ import (
 )
 
 var (
+	databaseName  string
+	setupDatabase = &cobra.Command{
+		Use:     "database",
+		Short:   "Set database which will be used",
+		Long:    "Set database which will be used, for this restful api",
+		Aliases: []string{"database"},
+		Args:    cobra.MinimumNArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			lastKeyValue, newKeyValue, err := envkeyeditor.EnvKeyEditor("DB_DRIVER", args[0])
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println(fmt.Sprintf("last DB_DRIVER value %s", lastKeyValue))
+				fmt.Println(fmt.Sprintf("DB_DRIVER switched to %s", newKeyValue))
+			}
+
+			lastKeyValue, newKeyValue, err = envkeyeditor.EnvKeyEditor("TEST_DB_DRIVER", args[0])
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println(fmt.Sprintf("last TEST_DB_DRIVER value %s", lastKeyValue))
+				fmt.Println(fmt.Sprintf("TEST_DB_DRIVER switched to %s", newKeyValue))
+			}
+		},
+	}
+)
+
+var (
 	debug       bool
 	switchDebug = &cobra.Command{
 		Use:     "switch-debug",
@@ -39,7 +67,7 @@ var (
 	generateSecretKey = &cobra.Command{
 		Use:     "generate-secret-key",
 		Short:   "Generate secret key env",
-		Long:    "Generate secret key env",
+		Long:    "Generate secret key inside .env file",
 		Aliases: []string{"generate-secret-key"},
 		Args:    cobra.MinimumNArgs(3),
 		Run: func(cmd *cobra.Command, args []string) {
@@ -81,7 +109,7 @@ var (
 )
 
 func init() {
-	switchDebug.Flags().BoolVarP(&debug, "debug", "d", false, "debug true/false")
+	cmd.AddCommand(setupDatabase)
 	cmd.AddCommand(switchDebug)
 	cmd.AddCommand(generateSecretKey)
 }

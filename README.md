@@ -18,4 +18,8 @@ go get -u github.com/joho/godotenv
 go get -u github.com/jinzhu/gorm
 go get -u github.com/biezhi/gorm-paginator/pagination
 go get -u gopkg.in/go-playground/assert.v1
+go get -u github.com/jinzhu/gorm/dialects/mysql
+go get -u github.com/jinzhu/gorm/dialects/postgres
+go get -u github.com/jinzhu/gorm/dialects/sqlite
+go get -u github.com/jinzhu/gorm/dialects/mssql
 ```
