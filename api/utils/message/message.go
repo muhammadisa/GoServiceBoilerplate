@@ -1,6 +1,9 @@
 package message
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // IMessage interface
 type IMessage interface {
@@ -32,47 +35,30 @@ func (msg Message) GenerateMessage() string {
 		kind = "Failed to"
 	}
 
-	var message string
-
-	switch msg.HTTPMethod {
-	case "GET":
-		message = fmt.Sprintf(
-			"%s retrieved %s data %s",
-			kind,
-			msg.TargetModelName,
-			with,
-		)
-	case "POST":
-		message = fmt.Sprintf(
-			"%s saved %s data %s",
-			kind,
-			msg.TargetModelName,
-			with,
-		)
-	case "PUT":
-		message = fmt.Sprintf(
-			"%s edit %s data %s",
-			kind,
-			msg.TargetModelName,
-			with,
-		)
-	case "PATCH":
-		message = fmt.Sprintf(
-			"%s edit %s data %s",
-			kind,
-			msg.TargetModelName,
-			with,
-		)
-	case "DELETE":
-		message = fmt.Sprintf(
-			"%s deleted %s data %s",
-			kind,
-			msg.TargetModelName,
-			with,
-		)
-	default:
-		message = ""
+	methods := []string{
+		"GET,retrieved",
+		"POST,saved",
+		"PUT,edit",
+		"PATCH,edit",
+		"DELETE,deleted",
 	}
 
-	return message
+	var messages string
+
+	for index := range methods {
+		mtd := strings.Split(methods[index], ",")
+		if msg.HTTPMethod == mtd[0] {
+			messages = fmt.Sprintf(
+				"%s %s %s data %s",
+				kind,
+				mtd[1],
+				msg.TargetModelName,
+				with,
+			)
+			break
+		}
+	}
+
+	return messages
+
 }
