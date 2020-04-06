@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/muhammadisa/restful-api-boilerplate/api/foobar"
 	"github.com/muhammadisa/restful-api-boilerplate/api/models"
 	"github.com/muhammadisa/restful-api-boilerplate/api/response"

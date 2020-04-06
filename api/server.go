@@ -7,6 +7,10 @@ import (
 	"os"
 	"strconv"
 
+	_foobarApi "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/http"
+	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
+	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
+
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -76,6 +80,11 @@ func Run() {
 			Data: "Running",
 		})
 	})
+
+	// Foobar
+	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(db)
+	foobarUsecase := _foobarUsecase.NewFoobarUsecase(foobarRepo)
+	_foobarApi.NewFoobarHandler(e, foobarUsecase)
 
 	// Start echo web framework
 	log.Fatal(e.Start(":8080"))
