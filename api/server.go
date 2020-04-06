@@ -61,7 +61,7 @@ func Run() {
 				TargetModelName: "home page",
 				WithID:          0,
 			}.GenerateMessage(),
-			Data: "Server is Up",
+			Data: "Running",
 		})
 	})
 
