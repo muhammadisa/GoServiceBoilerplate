@@ -12,7 +12,7 @@ type IMessage interface {
 
 // Message struct
 type Message struct {
-	WithID          int64
+	WithID          uint64
 	HTTPMethod      string
 	IsSuccess       bool
 	TargetModelName string
