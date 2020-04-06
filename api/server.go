@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -27,6 +28,7 @@ func Run() {
 		return
 	}
 
+	// Load database credential env
 	dbDriver := os.Getenv("DB_DRIVER")
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
@@ -34,7 +36,7 @@ func Run() {
 	dbPass := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
 
-	_, err = dbconnector.DBCredential{
+	db, err := dbconnector.DBCredential{
 		DBDriver:     dbDriver,
 		DBHost:       dbHost,
 		DBPort:       dbPort,
@@ -47,6 +49,16 @@ func Run() {
 		fmt.Println(err)
 	}
 
+	// Load debuging mode env
+	debugEnv := os.Getenv("DEBUG")
+	debug, err := strconv.ParseBool(debugEnv)
+	if err != nil {
+		log.Fatalf("Unable parsing debug env value %v", err)
+		return
+	}
+	db.LogMode(debug)
+
+	// Initialize middleware and route
 	e := echo.New()
 	middL := _middleware.InitMiddleware()
 	e.Use(middL.CORS)
