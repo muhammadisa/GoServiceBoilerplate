@@ -2,11 +2,26 @@ package message
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 )
 
+// GetType get struct name
+func GetType(myvar interface{}) string {
+	valueOf := reflect.ValueOf(myvar)
+	if valueOf.Type().Kind() == reflect.Ptr {
+		return reflect.Indirect(valueOf).Type().Name()
+	}
+	return valueOf.Type().Name()
+}
+
 // GenerateMessage generate error, successfully messages with status for consistency
-func GenerateMessage(withID uint64, httpMethod string, targetModelName string, isSuccess bool) string {
+func GenerateMessage(
+	withID uint64,
+	httpMethod string,
+	model interface{},
+	isSuccess bool,
+) string {
 
 	var with string
 	if withID == 0 {
@@ -39,7 +54,7 @@ func GenerateMessage(withID uint64, httpMethod string, targetModelName string, i
 				"%s %s %s data %s",
 				kind,
 				mtd[1],
-				targetModelName,
+				GetType(model),
 				with,
 			)
 			break
