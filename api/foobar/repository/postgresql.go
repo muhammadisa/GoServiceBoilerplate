@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"github.com/go-playground/validator/v10"
 	"github.com/jinzhu/gorm"
 	"github.com/muhammadisa/restful-api-boilerplate/api/foobar"
 	"github.com/muhammadisa/restful-api-boilerplate/api/models"
@@ -55,12 +54,6 @@ func (pFb *postgreFoobarRepo) GetByID(id uint64) (*models.Foobar, error) {
 
 func (pFb *postgreFoobarRepo) Store(FBar *models.Foobar) error {
 	var err error
-	validate := validator.New()
-
-	err = validate.Struct(FBar)
-	if err != nil {
-		return err
-	}
 
 	err = pFb.DB.Model(
 		&models.Foobar{},
@@ -76,12 +69,6 @@ func (pFb *postgreFoobarRepo) Store(FBar *models.Foobar) error {
 
 func (pFb *postgreFoobarRepo) Update(FBar *models.Foobar) error {
 	var err error
-	validate := validator.New()
-
-	err = validate.Struct(FBar)
-	if err != nil {
-		return err
-	}
 
 	err = pFb.DB.Model(
 		&models.Foobar{},

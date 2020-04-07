@@ -11,12 +11,14 @@ import (
 	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
 	"github.com/muhammadisa/restful-api-boilerplate/api/models"
+	"gopkg.in/go-playground/validator.v9"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	_middleware "github.com/muhammadisa/restful-api-boilerplate/api/middleware"
 	"github.com/muhammadisa/restful-api-boilerplate/api/response"
+	"github.com/muhammadisa/restful-api-boilerplate/api/utils/customvalidator"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/dbconnector"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/message"
 )
@@ -63,12 +65,17 @@ func Run() {
 	}
 	db.LogMode(debug)
 
+	db.DropTableIfExists(
+		models.Foobar{},
+	)
+
 	db.AutoMigrate(
 		models.Foobar{},
 	)
 
 	// Initialize middleware and route
 	e := echo.New()
+	e.Validator = customvalidator.CustomValidator{Validator: validator.New()}
 	middL := _middleware.InitMiddleware()
 	e.Use(middL.CORS)
 	e.Use(middleware.Recover())

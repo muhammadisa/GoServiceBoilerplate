@@ -88,7 +88,15 @@ func (fB *FoobarHandler) Store(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    message.GenerateMessage(0, "POST", "foobar", false),
-			Data:       nil,
+			Data:       err,
+		})
+	}
+
+	if err := c.Validate(fooBar); err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response{
+			StatusCode: http.StatusBadRequest,
+			Message:    message.GenerateMessage(0, "POST", "foobar", false),
+			Data:       err,
 		})
 	}
 
@@ -113,6 +121,7 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 	var err error
 	var fooBar models.Foobar
 
+	// binding
 	err = c.Bind(&fooBar)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
@@ -122,6 +131,16 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 		})
 	}
 
+	// validating
+	if err := c.Validate(fooBar); err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response{
+			StatusCode: http.StatusBadRequest,
+			Message:    message.GenerateMessage(0, "POST", "foobar", false),
+			Data:       err,
+		})
+	}
+
+	// process
 	_, err = fB.fBUsecase.GetByID(fooBar.ID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{

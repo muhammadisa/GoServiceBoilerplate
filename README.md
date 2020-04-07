@@ -7,7 +7,7 @@ UNDER DEVELOPMENT
 ## REQUIRED MOD
 
 ```bash
-go get -u github.com/go-playground/validator/v10
+go get -u gopkg.in/go-playground/validator.v9
 go get -u github.com/labstack/echo/v4
 go get -u github.com/rs/cors
 go get -u github.com/spf13/cobra
