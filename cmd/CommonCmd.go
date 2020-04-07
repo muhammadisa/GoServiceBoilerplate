@@ -39,7 +39,31 @@ var (
 )
 
 var (
-	debug       bool
+	switchDrop = &cobra.Command{
+		Use:     "switch-drop",
+		Short:   "Switch state",
+		Long:    "Switch state, if false cant drop table",
+		Aliases: []string{"switch-drop"},
+		Args:    cobra.MinimumNArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			// parsing args
+			value, err := strconv.ParseBool(args[0])
+			if err != nil {
+				fmt.Println(fmt.Errorf("Only true and false are allowed, error: %v", err))
+			}
+
+			lKV, nKV, err := envkeyeditor.EnvKeyEditor("DROP", strconv.FormatBool(value))
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println(fmt.Sprintf("last DROP value %s", lKV))
+				fmt.Println(fmt.Sprintf("DROP switched to %s", nKV))
+			}
+		},
+	}
+)
+
+var (
 	switchDebug = &cobra.Command{
 		Use:     "switch-debug",
 		Short:   "Switch gorm ORM debug",
@@ -141,6 +165,7 @@ var (
 
 func init() {
 	cmd.AddCommand(setupDatabase)
+	cmd.AddCommand(switchDrop)
 	cmd.AddCommand(switchDebug)
 	cmd.AddCommand(generateSecretKey)
 	cmd.AddCommand(webStartCmd)
