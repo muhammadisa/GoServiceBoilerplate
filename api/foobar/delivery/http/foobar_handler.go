@@ -36,25 +36,15 @@ func (fB *FoobarHandler) Fetch(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
 			StatusCode: http.StatusUnprocessableEntity,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "GET",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(0, "GET", "foobar", false),
+			Data:       nil,
 		})
 	}
 
 	return c.JSON(http.StatusOK, response.Response{
 		StatusCode: http.StatusOK,
-		Message: message.Message{
-			IsSuccess:       true,
-			HTTPMethod:      "GET",
-			TargetModelName: "foobar",
-			WithID:          0,
-		}.GenerateMessage(),
-		Data: fBars,
+		Message:    message.GenerateMessage(0, "GET", "foobar", true),
+		Data:       fBars,
 	})
 }
 
@@ -66,13 +56,8 @@ func (fB *FoobarHandler) GetByID(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadGateway, response.Response{
 			StatusCode: http.StatusBadGateway,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "GET",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(uint64(idFBar), "GET", "foobar", false),
+			Data:       nil,
 		})
 	}
 
@@ -81,25 +66,15 @@ func (fB *FoobarHandler) GetByID(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "GET",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(id, "GET", "foobar", false),
+			Data:       nil,
 		})
 	}
 
 	return c.JSON(http.StatusOK, response.Response{
 		StatusCode: http.StatusOK,
-		Message: message.Message{
-			IsSuccess:       true,
-			HTTPMethod:      "GET",
-			TargetModelName: "foobar",
-			WithID:          id,
-		}.GenerateMessage(),
-		Data: fBar,
+		Message:    message.GenerateMessage(id, "GET", "foobar", true),
+		Data:       fBar,
 	})
 }
 
@@ -112,13 +87,8 @@ func (fB *FoobarHandler) Store(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "POST",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(0, "POST", "foobar", false),
+			Data:       nil,
 		})
 	}
 
@@ -126,25 +96,15 @@ func (fB *FoobarHandler) Store(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "POST",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(0, "POST", "foobar", false),
+			Data:       nil,
 		})
 	}
 
 	return c.JSON(http.StatusCreated, response.Response{
 		StatusCode: http.StatusCreated,
-		Message: message.Message{
-			IsSuccess:       true,
-			HTTPMethod:      "POST",
-			TargetModelName: "foobar",
-			WithID:          0,
-		}.GenerateMessage(),
-		Data: fooBar,
+		Message:    message.GenerateMessage(0, "POST", "foobar", true),
+		Data:       fooBar,
 	})
 }
 
@@ -157,13 +117,8 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "PATCH",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(0, "PATCH", "foobar", false),
+			Data:       nil,
 		})
 	}
 
@@ -171,13 +126,8 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "PATCH",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(0, "PATCH", "foobar", false),
+			Data:       nil,
 		})
 	}
 
@@ -185,25 +135,15 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "PATCH",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(0, "PATCH", "foobar", false),
+			Data:       nil,
 		})
 	}
 
 	return c.JSON(http.StatusCreated, response.Response{
 		StatusCode: http.StatusCreated,
-		Message: message.Message{
-			IsSuccess:       true,
-			HTTPMethod:      "PATCH",
-			TargetModelName: "foobar",
-			WithID:          0,
-		}.GenerateMessage(),
-		Data: fooBar,
+		Message:    message.GenerateMessage(0, "PATCH", "foobar", true),
+		Data:       fooBar,
 	})
 }
 
@@ -215,13 +155,8 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadGateway, response.Response{
 			StatusCode: http.StatusBadGateway,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "DELETE",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(uint64(idFBar), "DELETE", "foobar", false),
+			Data:       nil,
 		})
 	}
 
@@ -230,38 +165,23 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "DELETE",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+			Message:    message.GenerateMessage(id, "DELETE", "foobar", false),
+			Data:       nil,
 		})
 	}
 
 	err = fB.fBUsecase.Delete(fBar.ID)
 	if err != nil {
-		return c.JSON(http.StatusBadGateway, response.Response{
-			StatusCode: http.StatusBadGateway,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "DELETE",
-				TargetModelName: "foobar",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: nil,
+		return c.JSON(http.StatusNotFound, response.Response{
+			StatusCode: http.StatusNotFound,
+			Message:    message.GenerateMessage(id, "DELETE", "foobar", false),
+			Data:       nil,
 		})
 	}
 
-	return c.JSON(http.StatusCreated, response.Response{
-		StatusCode: http.StatusCreated,
-		Message: message.Message{
-			IsSuccess:       true,
-			HTTPMethod:      "DELETE",
-			TargetModelName: "foobar",
-			WithID:          id,
-		}.GenerateMessage(),
-		Data: fBar.ID,
+	return c.JSON(http.StatusOK, response.Response{
+		StatusCode: http.StatusOK,
+		Message:    message.GenerateMessage(id, "DELETE", "foobar", true),
+		Data:       fBar.ID,
 	})
 }

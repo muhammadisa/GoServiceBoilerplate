@@ -10,6 +10,7 @@ import (
 	_foobarApi "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/http"
 	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
+	"github.com/muhammadisa/restful-api-boilerplate/api/models"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -62,6 +63,10 @@ func Run() {
 	}
 	db.LogMode(debug)
 
+	db.AutoMigrate(
+		models.Foobar{},
+	)
+
 	// Initialize middleware and route
 	e := echo.New()
 	middL := _middleware.InitMiddleware()
@@ -71,13 +76,8 @@ func Run() {
 	e.GET("/", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, response.Response{
 			StatusCode: http.StatusOK,
-			Message: message.Message{
-				IsSuccess:       false,
-				HTTPMethod:      "GET",
-				TargetModelName: "home page",
-				WithID:          0,
-			}.GenerateMessage(),
-			Data: "Running",
+			Message:    message.GenerateMessage(0, "GET", "home", true),
+			Data:       "Running",
 		})
 	})
 
