@@ -10,7 +10,6 @@ import (
 	_foobarApi "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/http"
 	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
-	"github.com/muhammadisa/restful-api-boilerplate/api/models"
 	"gopkg.in/go-playground/validator.v9"
 
 	"github.com/joho/godotenv"
@@ -65,13 +64,12 @@ func Run() {
 	}
 	db.LogMode(debug)
 
-	// db.DropTableIfExists(
-	// 	models.Foobar{},
-	// )
-
-	db.AutoMigrate(
-		models.Foobar{},
-	)
+	// Migrate and checking table fields changes
+	err = Seed{DB: db}.Migrate()
+	if err != nil {
+		log.Fatalf("Unable to migrate %v", err)
+		return
+	}
 
 	// Initialize middleware and route
 	e := echo.New()
