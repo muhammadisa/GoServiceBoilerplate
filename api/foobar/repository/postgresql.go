@@ -17,20 +17,21 @@ func NewPostgresFoobarRepo(db *gorm.DB) foobar.Repository {
 	}
 }
 
-func (pFb *postgreFoobarRepo) Fetch() (*[]models.Foobar, error) {
+func (pFb *postgreFoobarRepo) Fetch() (*gorm.DB, *[]models.Foobar, error) {
 	var err error
 	var fBars *[]models.Foobar = &[]models.Foobar{}
 
-	err = pFb.DB.Model(
+	db := pFb.DB.Model(
 		&models.Foobar{},
 	).Find(
 		&fBars,
-	).Error
+	)
+	err = db.Error
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return fBars, nil
+	return db, fBars, nil
 }
 
 func (pFb *postgreFoobarRepo) GetByID(id uint64) (*models.Foobar, error) {

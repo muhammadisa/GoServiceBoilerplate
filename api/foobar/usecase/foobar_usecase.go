@@ -3,6 +3,7 @@ package usecase
 import (
 	"time"
 
+	"github.com/jinzhu/gorm"
 	"github.com/muhammadisa/restful-api-boilerplate/api/foobar"
 	"github.com/muhammadisa/restful-api-boilerplate/api/models"
 )
@@ -19,12 +20,12 @@ func NewFoobarUsecase(fB foobar.Repository) foobar.Usecase {
 	}
 }
 
-func (fB foobarUsecase) Fetch() (*[]models.Foobar, error) {
-	res, err := fB.foobarRepository.Fetch()
+func (fB foobarUsecase) Fetch() (*gorm.DB, *[]models.Foobar, error) {
+	db, res, err := fB.foobarRepository.Fetch()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return res, nil
+	return db, res, nil
 }
 
 func (fB foobarUsecase) GetByID(id uint64) (*models.Foobar, error) {

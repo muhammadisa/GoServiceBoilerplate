@@ -9,6 +9,7 @@ import (
 	"github.com/muhammadisa/restful-api-boilerplate/api/models"
 	"github.com/muhammadisa/restful-api-boilerplate/api/response"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/message"
+	"github.com/muhammadisa/restful-api-boilerplate/api/utils/paging"
 )
 
 // FoobarHandler struct
@@ -36,7 +37,10 @@ var (
 func (fB *FoobarHandler) Fetch(c echo.Context) error {
 	var err error
 
-	fBars, err := fB.fBUsecase.Fetch()
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	limit, _ := strconv.Atoi(c.QueryParam("limit"))
+
+	db, fBars, err := fB.fBUsecase.Fetch()
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
 			StatusCode: http.StatusUnprocessableEntity,
@@ -48,7 +52,7 @@ func (fB *FoobarHandler) Fetch(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Response{
 		StatusCode: http.StatusOK,
 		Message:    message.GenerateMessage(0, "GET", model, true),
-		Data:       fBars,
+		Data:       paging.GetPaginator(db, page, limit, fBars),
 	})
 }
 

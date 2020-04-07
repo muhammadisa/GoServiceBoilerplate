@@ -65,9 +65,9 @@ func Run() {
 	}
 	db.LogMode(debug)
 
-	db.DropTableIfExists(
-		models.Foobar{},
-	)
+	// db.DropTableIfExists(
+	// 	models.Foobar{},
+	// )
 
 	db.AutoMigrate(
 		models.Foobar{},
