@@ -13,12 +13,12 @@ service FoobarHandler {
 message Foobar {
     uint64 ID = 1;
     string FoobarContent = 2;
-    google.protobuf.Timestamp UpdatedAt=4;
-	google.protobuf.Timestamp CreatedAt=5;
+    google.protobuf.Timestamp UpdatedAt=3;
+	google.protobuf.Timestamp CreatedAt=4;
 }
 
 message ListFoobar {
-    repeated Foobar foobar = 1;
+    repeated Foobar Foobars = 1;
 }
 
 message DeleteResponse {

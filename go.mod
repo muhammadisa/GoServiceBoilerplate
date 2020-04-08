@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/biezhi/gorm-paginator/pagination v0.0.0-20190124091837-7a5c8ed20334
+	github.com/bxcodec/go-clean-arch-grpc v0.0.0-20180120055355-76ef0be9bc64 // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20200206145737-bbfc9a55622e // indirect
 	github.com/go-playground/validator v9.31.0+incompatible // indirect
 	github.com/go-playground/validator/v10 v10.2.0 // indirect

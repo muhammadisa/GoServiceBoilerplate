@@ -9,6 +9,8 @@ github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+Ce
 github.com/biezhi/gorm-paginator v0.0.2 h1:ErKKbS6pq/3KOlvAcwju3tKg+ocRqVMmZ+X7aj8I8MM=
 github.com/biezhi/gorm-paginator/pagination v0.0.0-20190124091837-7a5c8ed20334 h1:ptFjQ4+vPGZDiNmBuKUetQoREFiPz/WB29CfQfdfeKc=
 github.com/biezhi/gorm-paginator/pagination v0.0.0-20190124091837-7a5c8ed20334/go.mod h1:Y/N4aF7p+Med/9ivVSsGBc8xOs8BGptUVBCY3k4KFCY=
+github.com/bxcodec/go-clean-arch-grpc v0.0.0-20180120055355-76ef0be9bc64 h1:0/hrTBK+yGDQI5PtGRyE6HiTYCM/rxQN85QH81GWtb4=
+github.com/bxcodec/go-clean-arch-grpc v0.0.0-20180120055355-76ef0be9bc64/go.mod h1:GWbFAY39gzXRKFhHNH2Csm+TpzDLrpsoy/9P+LxN2Z4=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=

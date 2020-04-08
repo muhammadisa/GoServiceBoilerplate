@@ -1,12 +1,13 @@
-package grpc
+package rpc
 
 import (
 	"context"
+	"log"
 	"time"
 
 	google_protobuf "github.com/golang/protobuf/ptypes/timestamp"
 	"github.com/muhammadisa/restful-api-boilerplate/api/foobar"
-	"github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/grpc/foobar_grpc"
+	"github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/rpc/foobar_grpc"
 	"github.com/muhammadisa/restful-api-boilerplate/api/models"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -26,28 +27,22 @@ func NewFoobarServerGrpc(gserver *grpc.Server, foobarUsecase foobar.Usecase) {
 }
 
 func (s *server) transformFoobarRPC(fBar *models.Foobar) *foobar_grpc.Foobar {
-
 	if fBar == nil {
 		return nil
 	}
-
 	UpdatedAt := &google_protobuf.Timestamp{
 		Seconds: fBar.UpdatedAt.Unix(),
 	}
-
 	CraetedAt := &google_protobuf.Timestamp{
 		Seconds: fBar.CreatedAt.Unix(),
 	}
-
 	res := &foobar_grpc.Foobar{
 		ID:            fBar.ID,
 		FoobarContent: fBar.FoobarContent,
 		UpdatedAt:     UpdatedAt,
 		CreatedAt:     CraetedAt,
 	}
-
 	return res
-
 }
 
 func (s *server) transformFoobarData(fBar *foobar_grpc.Foobar) *models.Foobar {
@@ -73,7 +68,24 @@ func (s *server) GetListFoobar(
 	ctx context.Context,
 	in *foobar_grpc.FetchRequest,
 ) (*foobar_grpc.ListFoobar, error) {
-	return nil, nil
+
+	_, res, err := s.usecase.Fetch()
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	arrFoobar := make([]*foobar_grpc.Foobar, 10)
+	for i, a := range *res {
+		ar := s.transformFoobarRPC(&a)
+		arrFoobar[i] = ar
+	}
+
+	result := &foobar_grpc.ListFoobar{
+		Foobars: arrFoobar,
+	}
+
+	return result, nil
 }
 
 func (s *server) UpdateFoobar(

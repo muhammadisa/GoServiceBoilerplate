@@ -8,8 +8,11 @@ import (
 	"strconv"
 
 	_foobarApi "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/http"
+	"github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/rpc"
 	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
+
+	"google.golang.org/grpc"
 	"gopkg.in/go-playground/validator.v9"
 
 	"github.com/joho/godotenv"
@@ -90,6 +93,9 @@ func Run() {
 	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(db)
 	foobarUsecase := _foobarUsecase.NewFoobarUsecase(foobarRepo)
 	_foobarApi.NewFoobarHandler(e, foobarUsecase)
+
+	server := grpc.NewServer()
+	rpc.NewFoobarServerGrpc(server, foobarUsecase)
 
 	// Start echo web framework
 	log.Fatal(e.Start(":8080"))
