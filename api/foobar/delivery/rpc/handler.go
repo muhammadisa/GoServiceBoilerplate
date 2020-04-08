@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -61,7 +62,24 @@ func (s *server) GetFoobar(
 	ctx context.Context,
 	in *foobar_grpc.SingleRequest,
 ) (*foobar_grpc.Foobar, error) {
-	return nil, nil
+
+	id := uint64(0)
+	if in != nil {
+		id = in.Id
+	}
+
+	fBar, err := s.usecase.GetByID(id)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	if fBar == nil {
+		return nil, fmt.Errorf("Foobar is nil")
+	}
+
+	res := s.transformFoobarRPC(fBar)
+	return res, nil
+
 }
 
 func (s *server) GetListFoobar(
@@ -75,10 +93,9 @@ func (s *server) GetListFoobar(
 		return nil, err
 	}
 
-	arrFoobar := make([]*foobar_grpc.Foobar, 10)
-	for i, a := range *res {
-		ar := s.transformFoobarRPC(&a)
-		arrFoobar[i] = ar
+	var arrFoobar []*foobar_grpc.Foobar
+	for _, r := range *res {
+		arrFoobar = append(arrFoobar, s.transformFoobarRPC(&r))
 	}
 
 	result := &foobar_grpc.ListFoobar{

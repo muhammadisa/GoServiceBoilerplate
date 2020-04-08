@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"strconv"
@@ -11,8 +12,8 @@ import (
 	"github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/rpc"
 	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
-
 	"google.golang.org/grpc"
+
 	"gopkg.in/go-playground/validator.v9"
 
 	"github.com/joho/godotenv"
@@ -94,10 +95,20 @@ func Run() {
 	foobarUsecase := _foobarUsecase.NewFoobarUsecase(foobarRepo)
 	_foobarApi.NewFoobarHandler(e, foobarUsecase)
 
+	listener, err := net.Listen("tcp", ":4040")
+	if err != nil {
+		fmt.Println("SOMETHING HAPPEN")
+	}
+
 	server := grpc.NewServer()
 	rpc.NewFoobarServerGrpc(server, foobarUsecase)
 
-	// Start echo web framework
-	log.Fatal(e.Start(":8080"))
+	err = server.Serve(listener)
+	if err != nil {
+		fmt.Println("Unexpected Error", err)
+	}
+
+	// // Start echo web framework
+	// log.Fatal(e.Start(":8080"))
 
 }
