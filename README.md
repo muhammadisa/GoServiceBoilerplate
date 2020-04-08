@@ -22,4 +22,6 @@ go get -u github.com/jinzhu/gorm/dialects/mysql
 go get -u github.com/jinzhu/gorm/dialects/postgres
 go get -u github.com/jinzhu/gorm/dialects/sqlite
 go get -u github.com/jinzhu/gorm/dialects/mssql
+go get -u google.golang.org/grpc
+go get -u github.com/golang/protobuf/protoc-gen-go
 ```

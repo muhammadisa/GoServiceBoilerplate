@@ -37,6 +37,7 @@ func (fB foobarUsecase) GetByID(id uint64) (*models.Foobar, error) {
 }
 
 func (fB foobarUsecase) Store(FBar *models.Foobar) error {
+	FBar.FoobarContent += " Business Logic Happen Here"
 	err := fB.foobarRepository.Store(FBar)
 	if err != nil {
 		return err
