@@ -23,6 +23,8 @@ func (pFb *postgreFoobarRepo) Fetch() (*gorm.DB, *[]models.Foobar, error) {
 
 	db := pFb.DB.Model(
 		&models.Foobar{},
+	).Order(
+		"id asc",
 	).Find(
 		&fBars,
 	)

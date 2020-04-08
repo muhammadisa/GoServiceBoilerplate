@@ -1,4 +1,4 @@
-package rpc
+package grpc
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 
 	google_protobuf "github.com/golang/protobuf/ptypes/timestamp"
 	"github.com/muhammadisa/restful-api-boilerplate/api/foobar"
-	"github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/rpc/foobar_grpc"
+	"github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/grpc/foobar_grpc"
 	"github.com/muhammadisa/restful-api-boilerplate/api/models"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -74,7 +74,7 @@ func (s *server) GetFoobar(
 		return nil, err
 	}
 	if fBar == nil {
-		return nil, fmt.Errorf("Foobar is nil")
+		return nil, fmt.Errorf("Foobar is Not Found")
 	}
 
 	res := s.transformFoobarRPC(fBar)
@@ -109,19 +109,68 @@ func (s *server) UpdateFoobar(
 	ctx context.Context,
 	fBar *foobar_grpc.Foobar,
 ) (*foobar_grpc.Foobar, error) {
-	return nil, nil
+
+	fB := s.transformFoobarData(fBar)
+
+	existed, err := s.usecase.GetByID(fB.ID)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	if existed == nil {
+		return nil, fmt.Errorf("Foobar is Not Found")
+	}
+
+	err = s.usecase.Update(fB)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	updatedFb := s.transformFoobarRPC(fB)
+
+	return updatedFb, nil
+
 }
 
 func (s *server) Store(
 	ctx context.Context,
 	fBar *foobar_grpc.Foobar,
 ) (*foobar_grpc.Foobar, error) {
-	return nil, nil
+
+	fooBar := s.transformFoobarData(fBar)
+
+	err := s.usecase.Store(fooBar)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	res := s.transformFoobarRPC(fooBar)
+
+	return res, nil
+
 }
 
 func (s *server) Delete(
 	ctx context.Context,
 	in *foobar_grpc.SingleRequest,
 ) (*foobar_grpc.DeleteResponse, error) {
-	return nil, nil
+
+	id := uint64(0)
+	if in != nil {
+		id = in.Id
+	}
+
+	err := s.usecase.Delete(id)
+	if err != nil {
+		log.SetFlags(log.LstdFlags | log.Lshortfile)
+		return nil, err
+	}
+
+	res := &foobar_grpc.DeleteResponse{
+		Status: "Successfully Deleted",
+	}
+
+	return res, nil
 }

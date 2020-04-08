@@ -8,10 +8,11 @@ import (
 	"os"
 	"strconv"
 
+	_grpc "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/grpc"
 	_foobarApi "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/http"
-	"github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/rpc"
 	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
+
 	"google.golang.org/grpc"
 
 	"gopkg.in/go-playground/validator.v9"
@@ -75,40 +76,58 @@ func Run() {
 		return
 	}
 
-	// Initialize middleware and route
-	e := echo.New()
-	e.Validator = customvalidator.CustomValidator{Validator: validator.New()}
-	middL := _middleware.InitMiddleware()
-	e.Use(middL.CORS)
-	e.Use(middleware.Recover())
-
-	e.GET("/", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, response.Response{
-			StatusCode: http.StatusOK,
-			Message:    message.GenerateMessage(0, "GET", "home", true),
-			Data:       "Running",
-		})
-	})
-
 	// Foobar
 	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(db)
 	foobarUsecase := _foobarUsecase.NewFoobarUsecase(foobarRepo)
-	_foobarApi.NewFoobarHandler(e, foobarUsecase)
 
-	listener, err := net.Listen("tcp", ":4040")
-	if err != nil {
-		fmt.Println("SOMETHING HAPPEN")
+	mode := os.Getenv("MODE")
+
+	switch mode {
+	case "api":
+
+		// Initialize middleware and route
+		e := echo.New()
+		e.Validator = customvalidator.CustomValidator{Validator: validator.New()}
+		middL := _middleware.InitMiddleware()
+		e.Use(middL.CORS)
+		e.Use(middleware.Recover())
+
+		e.GET("/", func(c echo.Context) error {
+			return c.JSON(http.StatusOK, response.Response{
+				StatusCode: http.StatusOK,
+				Message:    message.GenerateMessage(0, "GET", "home", true),
+				Data:       "Running",
+			})
+		})
+
+		_foobarApi.NewFoobarHandler(e, foobarUsecase)
+
+		// Start echo web framework
+		log.Fatal(e.Start(":8080"))
+
+		break
+
+	case "grpc":
+
+		port := ":4040"
+		listener, err := net.Listen("tcp", port)
+		if err != nil {
+			fmt.Println(fmt.Sprintf("Error while listening on %s", port))
+		}
+		fmt.Println(fmt.Sprintf("gRPC Server is Listening on %s", port))
+
+		server := grpc.NewServer()
+		_grpc.NewFoobarServerGrpc(server, foobarUsecase)
+
+		err = server.Serve(listener)
+		if err != nil {
+			fmt.Println("Unexpected Error", err)
+		}
+
+		break
+
+	default:
+		panic("Unknown mode on env setting")
 	}
-
-	server := grpc.NewServer()
-	rpc.NewFoobarServerGrpc(server, foobarUsecase)
-
-	err = server.Serve(listener)
-	if err != nil {
-		fmt.Println("Unexpected Error", err)
-	}
-
-	// // Start echo web framework
-	// log.Fatal(e.Start(":8080"))
 
 }
