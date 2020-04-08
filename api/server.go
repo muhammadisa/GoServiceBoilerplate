@@ -83,7 +83,7 @@ func Run() {
 	mode := os.Getenv("MODE")
 
 	switch mode {
-	case "api":
+	case "rest":
 
 		// Initialize middleware and route
 		e := echo.New()
