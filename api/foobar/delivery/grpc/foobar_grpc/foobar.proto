@@ -1,0 +1,39 @@
+syntax = "proto3";
+package foobar_grpc;
+import "google/protobuf/timestamp.proto";
+
+service FoobarHandler {
+    rpc GetFoobar (SingleRequest) returns (Foobar);
+    rpc GetListFoobar (FetchRequest) returns (ListFoobar);
+    rpc UpdateFoobar (Foobar) returns (Foobar);
+    rpc Delete (SingleRequest) returns (DeleteResponse);
+    rpc Store (Foobar) returns (Foobar);
+}
+
+message Foobar {
+    uint64 ID = 1;
+    string FoobarContent = 2;
+    google.protobuf.Timestamp UpdatedAt=4;
+	google.protobuf.Timestamp CreatedAt=5;
+}
+
+message ListFoobar {
+    repeated Foobar foobar = 1;
+}
+
+message DeleteResponse {
+    string status = 1;
+    uint64 code = 2;
+}
+
+message FetchRequest {
+    uint64 num = 1;
+}
+
+message SingleRequest {
+    uint64 id = 1;
+}
+
+message ErrorMessage{
+    string message = 1;
+}
