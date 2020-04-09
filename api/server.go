@@ -25,11 +25,6 @@ func Run() {
 		return
 	}
 
-	// Api Config
-	apiSecret := os.Getenv("API_SECRET")
-	origin := os.Getenv("ORIGINS")
-	origins := strings.Split(origin, ",")
-
 	// Load database credential env and use it
 	db, err := dbconnector.DBCredential{
 		DBDriver:     os.Getenv("DB_DRIVER"),
@@ -45,20 +40,11 @@ func Run() {
 	}
 
 	// Load debuging mode env
-	debugEnv := os.Getenv("DEBUG")
-	debug, err := strconv.ParseBool(debugEnv)
-	if err != nil {
-		log.Fatalf("Unable parsing debug env value %v", err)
-		return
-	}
+	debug, err := strconv.ParseBool(os.Getenv("DEBUG"))
 	db.LogMode(debug)
 
 	// Migrate and checking table fields changes
-	err = Seed{DB: db}.Migrate()
-	if err != nil {
-		log.Fatalf("Unable to migrate %v", err)
-		return
-	}
+	Seed{DB: db}.Migrate()
 
 	// Checking mode from env
 	switch mode := os.Getenv("MODE"); mode {
@@ -68,10 +54,10 @@ func Run() {
 		routes.RouteConfigs{
 			EchoData:  echo.New(),
 			DB:        db,
-			APISecret: apiSecret,
+			APISecret: os.Getenv("API_SECRET"),
 			Version:   "v2",
 			Port:      os.Getenv("HTTP_PORT"),
-			Origins:   origins,
+			Origins:   strings.Split(os.Getenv("ORIGINS"), ","),
 		}.NewHTTPRoute()
 		break
 
