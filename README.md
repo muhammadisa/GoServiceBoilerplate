@@ -1,10 +1,6 @@
-# GO RESTFUL API BOILERPLATE
+# Go Service Boilerplate
 
-UNDER DEVELOPMENT
-
-
-
-## REQUIRED MOD
+## Required Mod
 
 ```bash
 go get -u gopkg.in/go-playground/validator.v9
