@@ -1,6 +1,55 @@
 # Go Service Boilerplate
 
-## Required Mod
+Go web service boilerplate with two communication layer (Restful and gRPC)
+
+
+
+###### Compile Executable
+
+First compile main.go file into you desired filename
+
+```bash
+go build -o filename main.go
+```
+
+If you are using windows you can add .exe extension at the last of filename
+
+```bash
+go build -o filename.exe main.go
+```
+
+
+
+###### Setting Up Database
+
+You can chose which database you want to use, this project compatible with postgres, mysql, mssql, and sqlite depend what you need. Use this command to change database driver, here is the valid dbname.
+
+`dbname postgres, mysql, mssql, sqlite`
+
+```
+main database dbname
+```
+
+
+
+###### Starting Project
+
+To start this project you must prepare database and .env file, which the source of .env file is from .env.example you can copy its content to your own .env file, if you are done with configure your .env file you can run this command
+
+Before run web service please choose mode first
+
+`validmode grpc, rest`
+
+```bash
+filename switch-mode validmode
+go build -o filename main.go && filename web-start
+```
+
+
+
+###### Required Mod
+
+Before run this project please run these commands first
 
 ```bash
 go get -u gopkg.in/go-playground/validator.v9

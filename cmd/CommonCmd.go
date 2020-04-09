@@ -89,6 +89,25 @@ var (
 )
 
 var (
+	switchMode = &cobra.Command{
+		Use:     "switch-mode",
+		Short:   "Switch mode grpc or rest",
+		Long:    "Switch mode grpc or rest",
+		Aliases: []string{"switch-mode"},
+		Args:    cobra.MinimumNArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			lKV, nKV, err := envkeyeditor.EnvKeyEditor("MODE", args[0])
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println(fmt.Sprintf("last MODE value %s", lKV))
+				fmt.Println(fmt.Sprintf("MODE switched to %s", nKV))
+			}
+		},
+	}
+)
+
+var (
 	generateSecretKey = &cobra.Command{
 		Use:     "generate-secret-key",
 		Short:   "Generate secret key env",
@@ -166,6 +185,7 @@ var (
 func init() {
 	cmd.AddCommand(setupDatabase)
 	cmd.AddCommand(switchDrop)
+	cmd.AddCommand(switchMode)
 	cmd.AddCommand(switchDebug)
 	cmd.AddCommand(generateSecretKey)
 	cmd.AddCommand(webStartCmd)
