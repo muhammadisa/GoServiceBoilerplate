@@ -5,16 +5,16 @@ import (
 	"log"
 	"net/http"
 
-	_foobarApi "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/http"
-	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
-	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
+	_foobarApi "github.com/muhammadisa/go-service-boilerplate/api/foobar/delivery/http"
+	_foobarRepo "github.com/muhammadisa/go-service-boilerplate/api/foobar/repository"
+	_foobarUsecase "github.com/muhammadisa/go-service-boilerplate/api/foobar/usecase"
 	"gopkg.in/go-playground/validator.v9"
 
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/muhammadisa/restful-api-boilerplate/api/response"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/customvalidator"
+	"github.com/muhammadisa/go-service-boilerplate/api/response"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/customvalidator"
 )
 
 // Routes struct

@@ -5,11 +5,11 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhammadisa/restful-api-boilerplate/api/foobar"
-	"github.com/muhammadisa/restful-api-boilerplate/api/models"
-	"github.com/muhammadisa/restful-api-boilerplate/api/response"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/message"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/paging"
+	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
+	"github.com/muhammadisa/go-service-boilerplate/api/models"
+	"github.com/muhammadisa/go-service-boilerplate/api/response"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/message"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/paging"
 )
 
 // FoobarHandler struct

@@ -2,8 +2,8 @@ package repository
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/muhammadisa/restful-api-boilerplate/api/foobar"
-	"github.com/muhammadisa/restful-api-boilerplate/api/models"
+	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
+	"github.com/muhammadisa/go-service-boilerplate/api/models"
 )
 
 type postgreFoobarRepo struct {

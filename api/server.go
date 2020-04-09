@@ -9,8 +9,8 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
-	"github.com/muhammadisa/restful-api-boilerplate/api/routes"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/dbconnector"
+	"github.com/muhammadisa/go-service-boilerplate/api/routes"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/dbconnector"
 )
 
 // Run used for start connecting to selected database

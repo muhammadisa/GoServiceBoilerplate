@@ -7,8 +7,8 @@ import (
 	"strconv"
 
 	"github.com/joho/godotenv"
-	"github.com/muhammadisa/restful-api-boilerplate/api"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/envkeyeditor"
+	"github.com/muhammadisa/go-service-boilerplate/api"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/envkeyeditor"
 	"github.com/spf13/cobra"
 )
 

@@ -7,7 +7,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
-	"github.com/muhammadisa/restful-api-boilerplate/api/response"
+	"github.com/muhammadisa/go-service-boilerplate/api/response"
 )
 
 // GoMiddleware struct

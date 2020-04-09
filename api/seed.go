@@ -7,8 +7,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
-	"github.com/muhammadisa/restful-api-boilerplate/api/models"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/dbconnector"
+	"github.com/muhammadisa/go-service-boilerplate/api/models"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/dbconnector"
 )
 
 // Seed struct

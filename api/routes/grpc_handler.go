@@ -5,9 +5,9 @@ import (
 	"net"
 
 	"github.com/jinzhu/gorm"
-	_grpc "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/grpc"
-	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
-	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
+	_grpc "github.com/muhammadisa/go-service-boilerplate/api/foobar/delivery/grpc"
+	_foobarRepo "github.com/muhammadisa/go-service-boilerplate/api/foobar/repository"
+	_foobarUsecase "github.com/muhammadisa/go-service-boilerplate/api/foobar/usecase"
 
 	"google.golang.org/grpc"
 )

@@ -2,7 +2,7 @@ package foobar
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/muhammadisa/restful-api-boilerplate/api/models"
+	"github.com/muhammadisa/go-service-boilerplate/api/models"
 )
 
 // Usecase interface

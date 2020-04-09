@@ -7,9 +7,9 @@ import (
 	"time"
 
 	google_protobuf "github.com/golang/protobuf/ptypes/timestamp"
-	"github.com/muhammadisa/restful-api-boilerplate/api/foobar"
-	"github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/grpc/foobar_grpc"
-	"github.com/muhammadisa/restful-api-boilerplate/api/models"
+	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
+	"github.com/muhammadisa/go-service-boilerplate/api/foobar/delivery/grpc/foobar_grpc"
+	"github.com/muhammadisa/go-service-boilerplate/api/models"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

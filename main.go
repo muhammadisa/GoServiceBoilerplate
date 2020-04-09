@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/muhammadisa/restful-api-boilerplate/cmd"
+	"github.com/muhammadisa/go-service-boilerplate/cmd"
 )
 
 func main() {

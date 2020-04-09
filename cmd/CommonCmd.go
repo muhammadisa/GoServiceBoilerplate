@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/muhammadisa/restful-api-boilerplate/api"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/envkeyeditor"
+	"github.com/muhammadisa/go-service-boilerplate/api"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/envkeyeditor"
 	"github.com/sethvargo/go-password/password"
 	"github.com/spf13/cobra"
 )

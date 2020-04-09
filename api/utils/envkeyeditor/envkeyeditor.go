@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/joho/godotenv"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/mapsmerger"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/mapsmerger"
 )
 
 // EnvKeyEditor edit key inside .env file

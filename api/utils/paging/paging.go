@@ -3,7 +3,7 @@ package paging
 import (
 	"github.com/biezhi/gorm-paginator/pagination"
 	"github.com/jinzhu/gorm"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/checkdebug"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/checkdebug"
 )
 
 // GetPaginator paginator getter
