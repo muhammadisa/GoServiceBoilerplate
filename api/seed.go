@@ -64,7 +64,7 @@ func ConnectToDB() *gorm.DB {
 		DBUser:       dbUser,
 		DBPassword:   dbPass,
 		DBName:       dbName,
-		DBPathSqlite: "",
+		DBSqlitePath: "",
 	}.Connect()
 
 	if err != nil {

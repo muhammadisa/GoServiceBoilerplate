@@ -25,7 +25,7 @@ type DBCredential struct {
 	DBUser       string
 	DBPassword   string
 	DBName       string
-	DBPathSqlite string
+	DBSqlitePath string
 }
 
 // Connect connect to selected database dialect
@@ -60,7 +60,7 @@ func (dbCredential DBCredential) Connect() (*gorm.DB, error) {
 		)),
 		fmt.Sprintf("sqlite~%s", fmt.Sprintf(
 			"%s",
-			dbCredential.DBPathSqlite,
+			dbCredential.DBSqlitePath,
 		)),
 	}
 

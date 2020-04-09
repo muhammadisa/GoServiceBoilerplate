@@ -3,20 +3,13 @@ package api
 import (
 	"fmt"
 	"log"
-	"net"
 	"os"
 	"strconv"
 	"strings"
 
-	_grpc "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/grpc"
-	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
-	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
-	"github.com/muhammadisa/restful-api-boilerplate/api/routes"
-
-	"google.golang.org/grpc"
-
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/muhammadisa/restful-api-boilerplate/api/routes"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/dbconnector"
 )
 
@@ -37,22 +30,15 @@ func Run() {
 	origin := os.Getenv("ORIGINS")
 	origins := strings.Split(origin, ",")
 
-	// Load database credential env
-	dbDriver := os.Getenv("DB_DRIVER")
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPass := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
-
+	// Load database credential env and use it
 	db, err := dbconnector.DBCredential{
-		DBDriver:     dbDriver,
-		DBHost:       dbHost,
-		DBPort:       dbPort,
-		DBUser:       dbUser,
-		DBPassword:   dbPass,
-		DBName:       dbName,
-		DBPathSqlite: "",
+		DBDriver:     os.Getenv("DB_DRIVER"),
+		DBHost:       os.Getenv("DB_HOST"),
+		DBPort:       os.Getenv("DB_PORT"),
+		DBUser:       os.Getenv("DB_USER"),
+		DBPassword:   os.Getenv("DB_PASSWORD"),
+		DBName:       os.Getenv("DB_NAME"),
+		DBSqlitePath: "",
 	}.Connect()
 	if err != nil {
 		fmt.Println(err)
@@ -74,45 +60,28 @@ func Run() {
 		return
 	}
 
-	// Foobar
-	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(db)
-	foobarUsecase := _foobarUsecase.NewFoobarUsecase(foobarRepo)
-
-	mode := os.Getenv("MODE")
-
-	switch mode {
+	// Checking mode from env
+	switch mode := os.Getenv("MODE"); mode {
 	case "rest":
 
 		// Init routes
-		e := echo.New()
-		port := ":8080"
 		routes.RouteConfigs{
-			EchoData:  e,
+			EchoData:  echo.New(),
 			DB:        db,
 			APISecret: apiSecret,
 			Version:   "v2",
-			Port:      port,
+			Port:      os.Getenv("HTTP_PORT"),
 			Origins:   origins,
 		}.NewHTTPRoute()
 		break
 
 	case "grpc":
 
-		port := ":4040"
-		listener, err := net.Listen("tcp", port)
-		if err != nil {
-			fmt.Println(fmt.Sprintf("Error while listening on %s", port))
-		}
-		fmt.Println(fmt.Sprintf("gRPC Server is Listening on %s", port))
-
-		server := grpc.NewServer()
-		_grpc.NewFoobarServerGrpc(server, foobarUsecase)
-
-		err = server.Serve(listener)
-		if err != nil {
-			fmt.Println("Unexpected Error", err)
-		}
-
+		routes.GRPCConfigs{
+			DB:       db,
+			Protocol: "tcp",
+			Port:     os.Getenv("GRPC_PORT"),
+		}.NewGRPC()
 		break
 
 	default:
