@@ -32,6 +32,11 @@ func Run() {
 		return
 	}
 
+	// Api Config
+	apiSecret := os.Getenv("API_SECRET")
+	origin := os.Getenv("ORIGINS")
+	origins := strings.Split(origin, ",")
+
 	// Load database credential env
 	dbDriver := os.Getenv("DB_DRIVER")
 	dbHost := os.Getenv("DB_HOST")
@@ -39,9 +44,6 @@ func Run() {
 	dbUser := os.Getenv("DB_USER")
 	dbPass := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
-	apiSecret := os.Getenv("API_SECRET")
-	origin := os.Getenv("ORIGINS")
-	origins := strings.Split(origin, ",")
 
 	db, err := dbconnector.DBCredential{
 		DBDriver:     dbDriver,
@@ -81,12 +83,17 @@ func Run() {
 	switch mode {
 	case "rest":
 
-		// Initialize middleware and route
+		// Init routes
 		e := echo.New()
-		routes.NewRoute(e, db, apiSecret, origins, "v2")
-
-		log.Fatal(e.Start(":8080"))
-
+		port := ":8080"
+		routes.RouteConfigs{
+			EchoData:  e,
+			DB:        db,
+			APISecret: apiSecret,
+			Version:   "v2",
+			Port:      port,
+			Origins:   origins,
+		}.NewHTTPRoute()
 		break
 
 	case "grpc":

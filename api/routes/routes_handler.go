@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 
 	_foobarApi "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/http"
@@ -13,7 +15,6 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/muhammadisa/restful-api-boilerplate/api/response"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/customvalidator"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/message"
 )
 
 // Routes struct
@@ -23,22 +24,39 @@ type Routes struct {
 	DB    *gorm.DB
 }
 
-// NewRoute echo route initialization
-func NewRoute(
-	echoData *echo.Echo,
-	db *gorm.DB,
-	apiSecret string,
-	origins []string,
-	masterVersion string,
-) {
-	restful := echoData.Group("/api/v2")
+// RouteConfigs struct
+type RouteConfigs struct {
+	EchoData  *echo.Echo
+	DB        *gorm.DB
+	APISecret string
+	Version   string
+	Port      string
+	Origins   []string
+}
+
+// IRouteConfigs interface
+type IRouteConfigs interface {
+	NewHTTPRoute()
+}
+
+// NewHTTPRoute echo route initialization
+func (rc RouteConfigs) NewHTTPRoute() {
+	// Initialize route configs
+	restful := rc.EchoData.Group(fmt.Sprintf("api/%s", rc.Version))
 	handler := &Routes{
-		Echo:  echoData,
+		Echo:  rc.EchoData,
 		Group: restful,
-		DB:    db,
+		DB:    rc.DB,
 	}
 	handler.Echo.Validator = customvalidator.CustomValidator{Validator: validator.New()}
-	handler.setupMiddleware(apiSecret, origins)
+	handler.setupMiddleware(rc.APISecret, rc.Origins)
+	handler.setInitRoutes()
+
+	// Internal routers
+	handler.initFoobarRoutes()
+
+	// Starting Echo Server
+	log.Fatal(handler.Echo.Start(rc.Port))
 }
 
 func (r *Routes) setupMiddleware(apiSecret string, origins []string) {
@@ -60,8 +78,8 @@ func (r *Routes) setInitRoutes() {
 	r.Echo.GET("/", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, response.Response{
 			StatusCode: http.StatusOK,
-			Message:    message.GenerateMessage(0, "GET", "starting point", true),
-			Data:       "Running",
+			Message:    "Server is running",
+			Data:       true,
 		})
 	})
 }
