@@ -6,16 +6,16 @@ Go web service boilerplate with two communication layer (Restful and gRPC)
 
 ###### Compile Executable
 
-First compile main.go file into you desired filename
+First compile main.go file into you desired filename for example helios.
 
 ```bash
-go build -o filename main.go
+go build -o helios main.go
 ```
 
 If you are using windows you can add .exe extension at the last of filename
 
 ```bash
-go build -o filename.exe main.go
+go build -o helios.exe main.go
 ```
 
 
@@ -27,7 +27,7 @@ You can chose which database you want to use, this project compatible with postg
 `dbname postgres, mysql, mssql, sqlite`
 
 ```
-main database dbname
+helios database dbname
 ```
 
 
@@ -41,8 +41,21 @@ Before run web service please choose mode first
 `validmode grpc, rest`
 
 ```bash
-filename switch-mode validmode
-go build -o filename main.go && filename web-start
+helios switch-mode rest
+go build -o helios main.go
+helios web-start
+```
+
+
+
+###### Or Just Run This
+
+```
+go build -o helios main.go
+helios database postgres
+helios switch-mode rest
+go build -o helios main.go
+helios web-start
 ```
 
 
