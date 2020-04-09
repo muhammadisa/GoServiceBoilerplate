@@ -18,15 +18,15 @@ type FoobarHandler struct {
 }
 
 // NewFoobarHandler initialize enpoints
-func NewFoobarHandler(e *echo.Echo, fBu foobar.Usecase) {
+func NewFoobarHandler(e *echo.Group, fBu foobar.Usecase) {
 	handler := &FoobarHandler{
 		fBUsecase: fBu,
 	}
-	e.GET("foobars/", handler.Fetch)
-	e.GET("foobar/:id", handler.GetByID)
-	e.POST("foobar/", handler.Store)
-	e.PATCH("foobar/update/:id", handler.Update)
-	e.DELETE("foobar/delete/:id", handler.Delete)
+	e.GET("/foobars/", handler.Fetch)
+	e.GET("/foobar/:id", handler.GetByID)
+	e.POST("/foobar/", handler.Store)
+	e.PATCH("/foobar/update/:id", handler.Update)
+	e.DELETE("/foobar/delete/:id", handler.Delete)
 }
 
 var (

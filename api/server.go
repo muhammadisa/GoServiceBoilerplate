@@ -4,27 +4,20 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	_grpc "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/grpc"
-	_foobarApi "github.com/muhammadisa/restful-api-boilerplate/api/foobar/delivery/http"
 	_foobarRepo "github.com/muhammadisa/restful-api-boilerplate/api/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/restful-api-boilerplate/api/foobar/usecase"
+	"github.com/muhammadisa/restful-api-boilerplate/api/routes"
 
 	"google.golang.org/grpc"
 
-	"gopkg.in/go-playground/validator.v9"
-
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	_middleware "github.com/muhammadisa/restful-api-boilerplate/api/middleware"
-	"github.com/muhammadisa/restful-api-boilerplate/api/response"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/customvalidator"
 	"github.com/muhammadisa/restful-api-boilerplate/api/utils/dbconnector"
-	"github.com/muhammadisa/restful-api-boilerplate/api/utils/message"
 )
 
 // Run used for start connecting to selected database
@@ -46,6 +39,9 @@ func Run() {
 	dbUser := os.Getenv("DB_USER")
 	dbPass := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
+	apiSecret := os.Getenv("API_SECRET")
+	origin := os.Getenv("ORIGINS")
+	origins := strings.Split(origin, ",")
 
 	db, err := dbconnector.DBCredential{
 		DBDriver:     dbDriver,
@@ -87,22 +83,8 @@ func Run() {
 
 		// Initialize middleware and route
 		e := echo.New()
-		e.Validator = customvalidator.CustomValidator{Validator: validator.New()}
-		middL := _middleware.InitMiddleware()
-		e.Use(middL.CORS)
-		e.Use(middleware.Recover())
+		routes.NewRoute(e, db, apiSecret, origins, "v2")
 
-		e.GET("/", func(c echo.Context) error {
-			return c.JSON(http.StatusOK, response.Response{
-				StatusCode: http.StatusOK,
-				Message:    message.GenerateMessage(0, "GET", "home", true),
-				Data:       "Running",
-			})
-		})
-
-		_foobarApi.NewFoobarHandler(e, foobarUsecase)
-
-		// Start echo web framework
 		log.Fatal(e.Start(":8080"))
 
 		break

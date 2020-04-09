@@ -6,12 +6,13 @@ require (
 	github.com/biezhi/gorm-paginator/pagination v0.0.0-20190124091837-7a5c8ed20334
 	github.com/bxcodec/go-clean-arch-grpc v0.0.0-20180120055355-76ef0be9bc64 // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20200206145737-bbfc9a55622e // indirect
-	github.com/go-playground/validator v9.31.0+incompatible // indirect
+	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-playground/validator/v10 v10.2.0 // indirect
 	github.com/go-sql-driver/mysql v1.5.0 // indirect
 	github.com/golang/protobuf v1.3.5
 	github.com/jinzhu/gorm v1.9.12
 	github.com/joho/godotenv v1.3.0
+	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/lib/pq v1.3.0 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
