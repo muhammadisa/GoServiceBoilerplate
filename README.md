@@ -31,6 +31,16 @@ go get -u github.com/go-redis/redis/v7
 
 
 
+### Compile Proto File
+
+You must setting up protoc binary in to you system environment variable
+
+```bash
+protoc --proto_path=api/foobar/delivery/grpc/foobar_grpc --proto_path=third_party --go_out=plugins=grpc:api/foobar/delivery/grpc/foobar_grpc foobar.proto
+```
+
+
+
 ### Compile Executable
 
 First compile main.go file into you desired filename for example helios.
