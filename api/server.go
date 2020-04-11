@@ -6,9 +6,11 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/muhammadisa/go-service-boilerplate/api/cache"
 	"github.com/muhammadisa/go-service-boilerplate/api/routes"
 	"github.com/muhammadisa/go-service-boilerplate/api/utils/dbconnector"
 )
@@ -46,6 +48,15 @@ func Run() {
 	// Migrate and checking table fields changes
 	Seed{DB: db}.Migrate()
 
+	// Redis cache client
+	client := cache.Redis{
+		Address:  "localhost:6379",
+		Password: "",
+		DB:       0,
+		Debug:    debug,
+		Expire:   time.Duration(60000) * time.Millisecond,
+	}
+
 	// Checking mode from env
 	switch mode := os.Getenv("MODE"); mode {
 	case "rest":
@@ -58,6 +69,7 @@ func Run() {
 			Version:   "v2",
 			Port:      os.Getenv("HTTP_PORT"),
 			Origins:   strings.Split(os.Getenv("ORIGINS"), ","),
+			Cache:     client,
 		}.NewHTTPRoute()
 		break
 
@@ -67,6 +79,7 @@ func Run() {
 			DB:       db,
 			Protocol: "tcp",
 			Port:     os.Getenv("GRPC_PORT"),
+			Cache:    client,
 		}.NewGRPC()
 		break
 

@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/muhammadisa/go-service-boilerplate/api/cache"
 	_foobarApi "github.com/muhammadisa/go-service-boilerplate/api/foobar/delivery/http"
 	_foobarRepo "github.com/muhammadisa/go-service-boilerplate/api/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/go-service-boilerplate/api/foobar/usecase"
@@ -22,6 +23,7 @@ type Routes struct {
 	Echo  *echo.Echo
 	Group *echo.Group
 	DB    *gorm.DB
+	Cache cache.Redis
 }
 
 // RouteConfigs struct
@@ -32,6 +34,7 @@ type RouteConfigs struct {
 	Version   string
 	Port      string
 	Origins   []string
+	Cache     cache.Redis
 }
 
 // IRouteConfigs interface
@@ -47,6 +50,7 @@ func (rc RouteConfigs) NewHTTPRoute() {
 		Echo:  rc.EchoData,
 		Group: restful,
 		DB:    rc.DB,
+		Cache: rc.Cache,
 	}
 	handler.Echo.Validator = customvalidator.CustomValidator{Validator: validator.New()}
 	handler.setupMiddleware(rc.APISecret, rc.Origins)
@@ -87,7 +91,7 @@ func (r *Routes) setInitRoutes() {
 // Create route initialization function here
 
 func (r *Routes) initFoobarRoutes() {
-	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(r.DB)
+	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(r.DB, r.Cache)
 	foobarUsecase := _foobarUsecase.NewFoobarUsecase(foobarRepo)
 	_foobarApi.NewFoobarHandler(r.Group, foobarUsecase)
 }

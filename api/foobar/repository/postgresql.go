@@ -1,19 +1,24 @@
 package repository
 
 import (
+	"encoding/json"
+
 	"github.com/jinzhu/gorm"
+	"github.com/muhammadisa/go-service-boilerplate/api/cache"
 	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
 )
 
 type postgreFoobarRepo struct {
-	DB *gorm.DB
+	DB    *gorm.DB
+	Cache cache.Redis
 }
 
 // NewPostgresFoobarRepo function
-func NewPostgresFoobarRepo(db *gorm.DB) foobar.Repository {
+func NewPostgresFoobarRepo(db *gorm.DB, cacheClient cache.Redis) foobar.Repository {
 	return &postgreFoobarRepo{
-		DB: db,
+		DB:    db,
+		Cache: cacheClient,
 	}
 }
 
@@ -40,6 +45,11 @@ func (pFb *postgreFoobarRepo) GetByID(id uint64) (*models.Foobar, error) {
 	var err error
 	var fBar *models.Foobar = &models.Foobar{}
 
+	cache := pFb.Cache.Get(cache.Key(models.Foobar{}, id))
+	if cache != "nil" && cache != "" {
+		json.Unmarshal([]byte(cache), &fBar)
+		return fBar, nil
+	}
 	err = pFb.DB.Model(
 		&models.Foobar{},
 	).Where(
@@ -52,6 +62,7 @@ func (pFb *postgreFoobarRepo) GetByID(id uint64) (*models.Foobar, error) {
 		return nil, err
 	}
 
+	pFb.Cache.Set(*fBar)
 	return fBar, nil
 }
 

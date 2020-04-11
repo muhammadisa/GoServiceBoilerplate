@@ -5,6 +5,7 @@ import (
 	"net"
 
 	"github.com/jinzhu/gorm"
+	"github.com/muhammadisa/go-service-boilerplate/api/cache"
 	_grpc "github.com/muhammadisa/go-service-boilerplate/api/foobar/delivery/grpc"
 	_foobarRepo "github.com/muhammadisa/go-service-boilerplate/api/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/go-service-boilerplate/api/foobar/usecase"
@@ -17,6 +18,7 @@ type GRPCConfigs struct {
 	Port     string
 	Protocol string
 	DB       *gorm.DB
+	Cache    cache.Redis
 }
 
 // IGRPCConfigs interface
@@ -46,7 +48,7 @@ func (gc GRPCConfigs) NewGRPC() {
 
 //
 func (gc GRPCConfigs) initFoobarService(server *grpc.Server) {
-	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(gc.DB)
+	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(gc.DB, gc.Cache)
 	foobarUsecase := _foobarUsecase.NewFoobarUsecase(foobarRepo)
 	_grpc.NewFoobarServerGrpc(server, foobarUsecase)
 }
