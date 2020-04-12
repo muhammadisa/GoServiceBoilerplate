@@ -15,7 +15,7 @@ type Foobar struct {
 	UpdatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
-// BeforeSave generate uuid v4
-func (fooBar Foobar) BeforeSave(scope *gorm.Scope) error {
+// BeforeCreate generate uuid v4
+func (fooBar Foobar) BeforeCreate(scope *gorm.Scope) error {
 	return scope.SetColumn("ID", uuid.NewV4())
 }

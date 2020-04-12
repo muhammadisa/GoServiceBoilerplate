@@ -70,7 +70,7 @@ func (fB *FoobarHandler) GetByID(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
-			Message:    message.GenerateMessage(uid, "GET", model, false),
+			Message:    message.GenerateMessage(uuid.Nil, "GET", model, false),
 			Data:       nil,
 		})
 	}

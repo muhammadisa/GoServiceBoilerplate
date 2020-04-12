@@ -3,7 +3,6 @@ package cache
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/go-redis/redis/v7"
@@ -46,13 +45,13 @@ func marshallStruct(data interface{}) (string, []byte, error) {
 		return "", nil, err
 	}
 	structName := message.GetType(data)
-	identifier := fmt.Sprintf("%s:%s", structName, strconv.Itoa(int(result["id"].(float64))))
+	identifier := fmt.Sprintf("%s:%s", structName, result["id"].(string))
 	return identifier, stringify, nil
 }
 
 // Key decide proper cache key
 func Key(data interface{}, id uuid.UUID) string {
-	return fmt.Sprintf("%s:%d", message.GetType(data), id)
+	return fmt.Sprintf("%s:%s", message.GetType(data), id.String())
 }
 
 // Connect connect to redis

@@ -30,7 +30,7 @@ func (pFb *postgreFoobarRepo) Fetch() (*gorm.DB, *[]models.Foobar, error) {
 	db := pFb.DB.Model(
 		&models.Foobar{},
 	).Order(
-		"id asc",
+		"created_at asc",
 	).Find(
 		&fBars,
 	)
@@ -89,7 +89,7 @@ func (pFb *postgreFoobarRepo) Update(FBar *models.Foobar) error {
 		&models.Foobar{},
 	).Where(
 		"id = ?",
-		FBar.ID,
+		FBar.ID.String(),
 	).Update(models.Foobar{
 		FoobarContent: FBar.FoobarContent,
 		UpdatedAt:     FBar.UpdatedAt,

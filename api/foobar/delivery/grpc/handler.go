@@ -40,6 +40,7 @@ func (s *server) transformFoobarRPC(fBar *models.Foobar) *foobar_grpc.Foobar {
 	}
 
 	res := &foobar_grpc.Foobar{
+		ID:            fBar.ID.String(),
 		FoobarContent: fBar.FoobarContent,
 		UpdatedAt:     UpdatedAt,
 		CreatedAt:     CraetedAt,

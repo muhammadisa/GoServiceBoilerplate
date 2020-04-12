@@ -29,7 +29,7 @@ func GenerateMessage(
 	if withID == uuid.Nil {
 		with = "without id"
 	} else {
-		with = fmt.Sprintf("with id %d", withID)
+		with = fmt.Sprintf("with id %s", withID.String())
 	}
 
 	var kind string
