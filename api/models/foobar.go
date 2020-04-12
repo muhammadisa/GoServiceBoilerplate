@@ -16,6 +16,6 @@ type Foobar struct {
 }
 
 // BeforeCreate generate uuid v4
-func (fooBar Foobar) BeforeCreate(scope *gorm.Scope) error {
+func (fooBar Foobar) BeforeCreate(scope *gorm.Scope) (err error) {
 	return scope.SetColumn("ID", uuid.NewV4())
 }
