@@ -6,6 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
+	uuid "github.com/satori/go.uuid"
 )
 
 // foobarUsecase struct
@@ -28,7 +29,7 @@ func (fB foobarUsecase) Fetch() (*gorm.DB, *[]models.Foobar, error) {
 	return db, res, nil
 }
 
-func (fB foobarUsecase) GetByID(id uint64) (*models.Foobar, error) {
+func (fB foobarUsecase) GetByID(id uuid.UUID) (*models.Foobar, error) {
 	res, err := fB.foobarRepository.GetByID(id)
 	if err != nil {
 		return nil, err
@@ -50,6 +51,6 @@ func (fB foobarUsecase) Update(FBar *models.Foobar) error {
 	return fB.foobarRepository.Update(FBar)
 }
 
-func (fB foobarUsecase) Delete(id uint64) error {
+func (fB foobarUsecase) Delete(id uuid.UUID) error {
 	return fB.foobarRepository.Delete(id)
 }

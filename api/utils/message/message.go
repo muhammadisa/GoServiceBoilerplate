@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 // GetType get struct name
@@ -17,14 +19,14 @@ func GetType(myvar interface{}) string {
 
 // GenerateMessage generate error, successfully messages with status for consistency
 func GenerateMessage(
-	withID uint64,
+	withID uuid.UUID,
 	httpMethod string,
 	model interface{},
 	isSuccess bool,
 ) string {
 
 	var with string
-	if withID == 0 {
+	if withID == uuid.Nil {
 		with = "without id"
 	} else {
 		with = fmt.Sprintf("with id %d", withID)

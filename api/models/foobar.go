@@ -2,12 +2,20 @@ package models
 
 import (
 	"time"
+
+	"github.com/jinzhu/gorm"
+	uuid "github.com/satori/go.uuid"
 )
 
 // Foobar struct
 type Foobar struct {
-	ID            uint64    `gorm:"primary_key;auto_increment" json:"id"`
+	ID            uuid.UUID `gorm:"type:uuid;primary_key;" json:"id"`
 	FoobarContent string    `gorm:"" json:"foobar_content" validate:"required"`
 	CreatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+}
+
+// BeforeSave generate uuid v4
+func (fooBar Foobar) BeforeSave(scope *gorm.Scope) error {
+	return scope.SetColumn("ID", uuid.NewV4())
 }

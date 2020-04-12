@@ -1,5 +1,7 @@
-syntax = "proto3";
+syntax = "proto3"; 
+
 package foobar_grpc;
+
 import "google/protobuf/timestamp.proto";
 
 service FoobarHandler {
@@ -11,7 +13,7 @@ service FoobarHandler {
 }
 
 message Foobar {
-    uint64 ID = 1;
+    string ID = 1;
     string FoobarContent = 2;
     google.protobuf.Timestamp UpdatedAt=3;
 	google.protobuf.Timestamp CreatedAt=4;
@@ -31,7 +33,7 @@ message FetchRequest {
 }
 
 message SingleRequest {
-    uint64 id = 1;
+    string ID = 1;
 }
 
 message ErrorMessage{

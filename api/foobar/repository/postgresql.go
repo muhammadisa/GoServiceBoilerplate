@@ -7,6 +7,7 @@ import (
 	"github.com/muhammadisa/go-service-boilerplate/api/cache"
 	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
+	uuid "github.com/satori/go.uuid"
 )
 
 type postgreFoobarRepo struct {
@@ -41,7 +42,7 @@ func (pFb *postgreFoobarRepo) Fetch() (*gorm.DB, *[]models.Foobar, error) {
 	return db, fBars, nil
 }
 
-func (pFb *postgreFoobarRepo) GetByID(id uint64) (*models.Foobar, error) {
+func (pFb *postgreFoobarRepo) GetByID(id uuid.UUID) (*models.Foobar, error) {
 	var err error
 	var fBar *models.Foobar = &models.Foobar{}
 
@@ -100,7 +101,7 @@ func (pFb *postgreFoobarRepo) Update(FBar *models.Foobar) error {
 	return nil
 }
 
-func (pFb *postgreFoobarRepo) Delete(id uint64) error {
+func (pFb *postgreFoobarRepo) Delete(id uuid.UUID) error {
 	var err error
 
 	err = pFb.DB.Model(

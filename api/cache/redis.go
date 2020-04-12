@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-redis/redis/v7"
 	"github.com/muhammadisa/go-service-boilerplate/api/utils/message"
+	uuid "github.com/satori/go.uuid"
 )
 
 // Redis struct
@@ -50,7 +51,7 @@ func marshallStruct(data interface{}) (string, []byte, error) {
 }
 
 // Key decide proper cache key
-func Key(data interface{}, id uint64) string {
+func Key(data interface{}, id uuid.UUID) string {
 	return fmt.Sprintf("%s:%d", message.GetType(data), id)
 }
 

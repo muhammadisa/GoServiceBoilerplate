@@ -10,6 +10,7 @@ import (
 	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
 	"github.com/muhammadisa/go-service-boilerplate/api/foobar/delivery/grpc/foobar_grpc"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
+	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -37,8 +38,8 @@ func (s *server) transformFoobarRPC(fBar *models.Foobar) *foobar_grpc.Foobar {
 	CraetedAt := &google_protobuf.Timestamp{
 		Seconds: fBar.CreatedAt.Unix(),
 	}
+
 	res := &foobar_grpc.Foobar{
-		ID:            fBar.ID,
 		FoobarContent: fBar.FoobarContent,
 		UpdatedAt:     UpdatedAt,
 		CreatedAt:     CraetedAt,
@@ -49,8 +50,13 @@ func (s *server) transformFoobarRPC(fBar *models.Foobar) *foobar_grpc.Foobar {
 func (s *server) transformFoobarData(fBar *foobar_grpc.Foobar) *models.Foobar {
 	UpdatedAt := time.Unix(fBar.GetUpdatedAt().GetSeconds(), 0)
 	CreatedAt := time.Unix(fBar.GetCreatedAt().GetSeconds(), 0)
+
+	id, err := uuid.FromString(fBar.ID)
+	if err != nil {
+		fmt.Printf("Something went wrong: %s", err)
+	}
 	res := &models.Foobar{
-		ID:            fBar.ID,
+		ID:            id,
 		FoobarContent: fBar.FoobarContent,
 		UpdatedAt:     UpdatedAt,
 		CreatedAt:     CreatedAt,
@@ -63,12 +69,11 @@ func (s *server) GetFoobar(
 	in *foobar_grpc.SingleRequest,
 ) (*foobar_grpc.Foobar, error) {
 
-	id := uint64(0)
-	if in != nil {
-		id = in.Id
+	uuid, err := uuid.FromString(in.ID)
+	if err != nil {
+		fmt.Printf("Something went wrong: %s", err)
 	}
-
-	fBar, err := s.usecase.GetByID(id)
+	fBar, err := s.usecase.GetByID(uuid)
 	if err != nil {
 		log.Println(err.Error())
 		return nil, err
@@ -157,12 +162,11 @@ func (s *server) Delete(
 	in *foobar_grpc.SingleRequest,
 ) (*foobar_grpc.DeleteResponse, error) {
 
-	id := uint64(0)
-	if in != nil {
-		id = in.Id
+	id, err := uuid.FromString(in.ID)
+	if err != nil {
+		fmt.Printf("Something went wrong: %s", err)
 	}
-
-	err := s.usecase.Delete(id)
+	err = s.usecase.Delete(id)
 	if err != nil {
 		log.SetFlags(log.LstdFlags | log.Lshortfile)
 		return nil, err
