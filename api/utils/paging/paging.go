@@ -12,7 +12,7 @@ func GetPaginator(db *gorm.DB, page int, limit int, data interface{}) pagination
 		DB:      db,
 		Page:    page,
 		Limit:   limit,
-		OrderBy: []string{"id asc"},
+		OrderBy: []string{"created_at asc"},
 		ShowSQL: checkdebug.CheckDebug(),
 	}, data)
 }
