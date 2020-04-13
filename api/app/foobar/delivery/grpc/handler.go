@@ -7,8 +7,8 @@ import (
 	"time"
 
 	google_protobuf "github.com/golang/protobuf/ptypes/timestamp"
-	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
-	"github.com/muhammadisa/go-service-boilerplate/api/foobar/delivery/grpc/foobar_grpc"
+	"github.com/muhammadisa/go-service-boilerplate/api/app/foobar"
+	"github.com/muhammadisa/go-service-boilerplate/api/app/foobar/delivery/grpc/foobar_grpc"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
 	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc"

@@ -5,10 +5,10 @@ import (
 	"log"
 	"net/http"
 
+	_foobarApi "github.com/muhammadisa/go-service-boilerplate/api/app/foobar/delivery/http"
+	_foobarRepo "github.com/muhammadisa/go-service-boilerplate/api/app/foobar/repository"
+	_foobarUsecase "github.com/muhammadisa/go-service-boilerplate/api/app/foobar/usecase"
 	"github.com/muhammadisa/go-service-boilerplate/api/cache"
-	_foobarApi "github.com/muhammadisa/go-service-boilerplate/api/foobar/delivery/http"
-	_foobarRepo "github.com/muhammadisa/go-service-boilerplate/api/foobar/repository"
-	_foobarUsecase "github.com/muhammadisa/go-service-boilerplate/api/foobar/usecase"
 	"gopkg.in/go-playground/validator.v9"
 
 	"github.com/jinzhu/gorm"

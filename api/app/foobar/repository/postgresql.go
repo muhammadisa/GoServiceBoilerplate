@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 
 	"github.com/jinzhu/gorm"
+	"github.com/muhammadisa/go-service-boilerplate/api/app/foobar"
 	"github.com/muhammadisa/go-service-boilerplate/api/cache"
-	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
 	uuid "github.com/satori/go.uuid"
 )

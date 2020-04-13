@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"net"
 
+	_grpc "github.com/muhammadisa/go-service-boilerplate/api/app/foobar/delivery/grpc"
+	_foobarRepo "github.com/muhammadisa/go-service-boilerplate/api/app/foobar/repository"
+	_foobarUsecase "github.com/muhammadisa/go-service-boilerplate/api/app/foobar/usecase"
+
 	"github.com/jinzhu/gorm"
 	"github.com/muhammadisa/go-service-boilerplate/api/cache"
-	_grpc "github.com/muhammadisa/go-service-boilerplate/api/foobar/delivery/grpc"
-	_foobarRepo "github.com/muhammadisa/go-service-boilerplate/api/foobar/repository"
-	_foobarUsecase "github.com/muhammadisa/go-service-boilerplate/api/foobar/usecase"
-
 	"google.golang.org/grpc"
 )
 

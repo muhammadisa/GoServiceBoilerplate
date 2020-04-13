@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"github.com/muhammadisa/go-service-boilerplate/api/foobar"
+	"github.com/muhammadisa/go-service-boilerplate/api/app/foobar"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
 	"github.com/muhammadisa/go-service-boilerplate/api/response"
 	"github.com/muhammadisa/go-service-boilerplate/api/utils/message"
