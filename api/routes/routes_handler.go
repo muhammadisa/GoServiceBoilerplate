@@ -5,6 +5,10 @@ import (
 	"log"
 	"net/http"
 
+	_aliyunOSSApi "github.com/muhammadisa/go-service-boilerplate/api/app/aliyunoss/delivery/http"
+	_aliyunOSSRepo "github.com/muhammadisa/go-service-boilerplate/api/app/aliyunoss/repository"
+	_aliyunOSSUsecase "github.com/muhammadisa/go-service-boilerplate/api/app/aliyunoss/usecase"
+
 	_foobarApi "github.com/muhammadisa/go-service-boilerplate/api/app/foobar/delivery/http"
 	_foobarRepo "github.com/muhammadisa/go-service-boilerplate/api/app/foobar/repository"
 	_foobarUsecase "github.com/muhammadisa/go-service-boilerplate/api/app/foobar/usecase"
@@ -58,6 +62,7 @@ func (rc RouteConfigs) NewHTTPRoute() {
 
 	// Internal routers
 	handler.initFoobarRoutes()
+	handler.initAliyunOSSRoutes()
 
 	// Starting Echo Server
 	log.Fatal(handler.Echo.Start(rc.Port))
@@ -94,4 +99,10 @@ func (r *Routes) initFoobarRoutes() {
 	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(r.DB, r.Cache)
 	foobarUsecase := _foobarUsecase.NewFoobarUsecase(foobarRepo)
 	_foobarApi.NewFoobarHandler(r.Group, foobarUsecase)
+}
+
+func (r *Routes) initAliyunOSSRoutes() {
+	aliyunOSSRepo := _aliyunOSSRepo.NewAliyunOSSInteractorRepo()
+	aliyunOSSUsecase := _aliyunOSSUsecase.NewAliyunOSSUsecase(aliyunOSSRepo)
+	_aliyunOSSApi.NewAliyunOSSHandler(r.Group, aliyunOSSUsecase)
 }

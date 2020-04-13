@@ -28,6 +28,7 @@ go get -u google.golang.org/grpc
 go get -u github.com/golang/protobuf/protoc-gen-go
 go get -u github.com/go-redis/redis/v7
 go get -u github.com/satori/go.uuid
+go get -u github.com/aliyun/aliyun-oss-go-sdk/oss
 ```
 
 
