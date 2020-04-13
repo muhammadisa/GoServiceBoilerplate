@@ -37,7 +37,7 @@ go get -u github.com/satori/go.uuid
 You must setting up protoc binary in to you system environment variable
 
 ```bash
-protoc --proto_path=api/foobar/delivery/grpc/foobar_grpc --proto_path=third_party --go_out=plugins=grpc:api/foobar/delivery/grpc/foobar_grpc foobar.proto
+protoc --proto_path=api/app/foobar/delivery/grpc/foobar_grpc --proto_path=third_party --go_out=plugins=grpc:api/app/foobar/delivery/grpc/foobar_grpc foobar.proto
 ```
 
 
