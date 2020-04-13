@@ -47,7 +47,9 @@ func (i *aliyunOSSInteractorRepo) GetBuckets() (*oss.ListBucketsResult, error) {
 	return &lsRes, nil
 }
 
-func (i *aliyunOSSInteractorRepo) StoreObject(e echo.Context, bucketName string, tag string) (string, error) {
+func (i *aliyunOSSInteractorRepo) StoreObject(
+	e echo.Context, bucketName string, tag string,
+) (string, error) {
 	client, publicEndpoint, err := aliyun.CreateAliyunOSSClient()
 	if err != nil {
 		return "", err
@@ -65,7 +67,7 @@ func (i *aliyunOSSInteractorRepo) StoreObject(e echo.Context, bucketName string,
 	if len(fileType) != 2 {
 		return "", errors.New("Unformatted file doesn't allowed to upload")
 	}
-	objectKey := fmt.Sprintf("heliosstorage-tag-%s-%s.%s", tag, fileTimestamp, fileType[1])
+	objectKey := fmt.Sprintf("file-tag-%s-%s.%s", tag, fileTimestamp, fileType[1])
 
 	bucket, err := client.Bucket(bucketName)
 	if err != nil {
