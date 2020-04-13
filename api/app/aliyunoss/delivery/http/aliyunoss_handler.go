@@ -24,7 +24,7 @@ func NewAliyunOSSHandler(e *echo.Group, aOu aliyunoss.Usecase) {
 	e.GET("/aliyunoss/buckets/", handler.GetBuckets)
 	e.GET("/aliyunoss/objects/", handler.GetObjects)
 	e.POST("/aliyunoss/objects/", handler.Store)
-	e.DELETE("/aliyunoss/rollback/objects/:key", handler.Delete)
+	e.DELETE("/aliyunoss/rollback/objects/:bucket/:key/", handler.Delete)
 }
 
 // GetBuckets Get aliyun oss buckets data
@@ -88,7 +88,7 @@ func (aO *AliyunOSSHandler) Store(c echo.Context) error {
 
 // Delete rolling back file from aliyun oss
 func (aO *AliyunOSSHandler) Delete(c echo.Context) error {
-	bucket, key := c.QueryParam("bucket"), c.QueryParam("key")
+	bucket, key := c.Param("bucket"), c.Param("key")
 	err := aO.aOUsecase.Delete(bucket, key)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
