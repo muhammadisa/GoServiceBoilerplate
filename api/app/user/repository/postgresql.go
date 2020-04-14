@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/jinzhu/gorm"
 	"github.com/muhammadisa/go-service-boilerplate/api/app/user"
+	"github.com/muhammadisa/go-service-boilerplate/api/auth"
 	"github.com/muhammadisa/go-service-boilerplate/api/cache"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
 	uuid "github.com/satori/go.uuid"
@@ -21,7 +22,7 @@ func NewPostgresUserRepo(db *gorm.DB, cacheClient cache.Redis) user.Repository {
 	}
 }
 
-func (uS *postgreUserRepo) Login(usr *models.User) (*models.User, error) {
+func (uS *postgreUserRepo) Login(usr *models.User) (*models.User, *auth.Authenticated, error) {
 	var err error
 	var uSr *models.User = &models.User{}
 
@@ -34,9 +35,9 @@ func (uS *postgreUserRepo) Login(usr *models.User) (*models.User, error) {
 		&uSr,
 	).Error
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return uSr, nil
+	return uSr, &auth.Authenticated{}, nil
 }
 
 func (uS *postgreUserRepo) Register(usr *models.User) error {

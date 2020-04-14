@@ -7,6 +7,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhammadisa/go-service-boilerplate/api/app/foobar"
+	"github.com/muhammadisa/go-service-boilerplate/api/middleware"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
 	"github.com/muhammadisa/go-service-boilerplate/api/response"
 	"github.com/muhammadisa/go-service-boilerplate/api/utils/message"
@@ -24,7 +25,7 @@ func NewFoobarHandler(e *echo.Group, fBu foobar.Usecase) {
 	handler := &FoobarHandler{
 		fBUsecase: fBu,
 	}
-	e.GET("/foobars/", handler.Fetch)
+	e.GET("/foobars/", handler.Fetch, middleware.InitMiddleware().JWT)
 	e.GET("/foobar/:id", handler.GetByID)
 	e.POST("/foobar/", handler.Store)
 	e.PATCH("/foobar/update/:id", handler.Update)

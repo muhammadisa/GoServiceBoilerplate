@@ -6,6 +6,7 @@ require (
 	github.com/aliyun/aliyun-oss-go-sdk v2.0.8+incompatible
 	github.com/baiyubin/aliyun-sts-go-sdk v0.0.0-20180326062324-cfa1a18b161f // indirect
 	github.com/biezhi/gorm-paginator/pagination v0.0.0-20190124091837-7a5c8ed20334
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fatih/structtag v1.2.0 // indirect
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-redis/redis/v7 v7.2.0

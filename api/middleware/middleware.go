@@ -7,6 +7,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/muhammadisa/go-service-boilerplate/api/auth"
 	"github.com/muhammadisa/go-service-boilerplate/api/response"
 )
 
@@ -18,6 +19,22 @@ func (m *GoMiddleware) CORS(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		c.Response().Header().Set("Content-Type", "application/json")
 		c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+		return next(c)
+	}
+}
+
+// JWT jwt auth middleware
+func (m *GoMiddleware) JWT(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		err := auth.JWTTokenValidate(c)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, response.Response{
+				StatusCode: http.StatusUnauthorized,
+				Message:    "Unauthorized",
+				Data:       nil,
+			})
+			return nil
+		}
 		return next(c)
 	}
 }
@@ -43,7 +60,7 @@ func (m *GoMiddleware) APISecretKeyCheck(next echo.HandlerFunc) echo.HandlerFunc
 		}
 
 		// Checking API Secret Key
-		apiSecretKey := os.Getenv("API_SECRET")
+		apiSecretKey := os.Getenv("SECRET")
 		if secretKey != apiSecretKey {
 			c.JSON(http.StatusUnauthorized, response.Response{
 				StatusCode: http.StatusUnauthorized,

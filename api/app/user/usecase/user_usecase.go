@@ -22,16 +22,23 @@ func NewUserUsecase(uSr user.Repository) user.Usecase {
 	}
 }
 
-func (uS userUsecase) Login(usr *models.User) (*models.User, error) {
-	uSr, err := uS.userRepository.Login(usr)
+func (uS userUsecase) Login(usr *models.User) (*models.User, *auth.Authenticated, error) {
+	uSr, authenticated, err := uS.userRepository.Login(usr)
+	if err != nil {
+		return nil, nil, err
+	}
 	err = auth.VerifyPassword(uSr.Password, usr.Password)
 	if err != nil {
-		return nil, errors.New("Email or Password is incorrect")
+		return nil, nil, errors.New("Email or Password is incorrect")
 	}
+	token, refresh, err := auth.GenerateToken(uSr.ID)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return uSr, nil
+	authenticated.User = uSr
+	authenticated.AccessToken = token
+	authenticated.RefreshToken = refresh
+	return uSr, authenticated, nil
 }
 
 func (uS userUsecase) Register(usr *models.User) error {

@@ -5,7 +5,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/muhammadisa/go-service-boilerplate/api/app/user"
-	"github.com/muhammadisa/go-service-boilerplate/api/auth"
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
 	"github.com/muhammadisa/go-service-boilerplate/api/response"
 	"github.com/muhammadisa/go-service-boilerplate/api/utils/message"
@@ -50,7 +49,7 @@ func (uS *UserHandler) Login(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-	authUsr, err := uS.uSUsecase.Login(&usr)
+	_, authentic, err := uS.uSUsecase.Login(&usr)
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, response.Response{
 			StatusCode: http.StatusUnauthorized,
@@ -61,9 +60,7 @@ func (uS *UserHandler) Login(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Response{
 		StatusCode: http.StatusOK,
 		Message:    message.GenerateMessage(usr.ID, "POST", model, true),
-		Data: auth.Authenticated{
-			User: authUsr,
-		},
+		Data:       authentic,
 	})
 }
 
