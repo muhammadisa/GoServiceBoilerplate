@@ -50,7 +50,6 @@ func (fB *FoobarHandler) Fetch(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
 	return c.JSON(http.StatusOK, response.Response{
 		StatusCode: http.StatusOK,
 		Message:    message.GenerateMessage(uuid.Nil, "GET", model, true),
@@ -74,7 +73,6 @@ func (fB *FoobarHandler) GetByID(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
 	return c.JSON(http.StatusOK, response.Response{
 		StatusCode: http.StatusOK,
 		Message:    message.GenerateMessage(uid, "GET", model, true),
@@ -95,7 +93,6 @@ func (fB *FoobarHandler) Store(c echo.Context) error {
 			Data:       err,
 		})
 	}
-
 	err = c.Validate(fooBar)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
@@ -104,7 +101,6 @@ func (fB *FoobarHandler) Store(c echo.Context) error {
 			Data:       err,
 		})
 	}
-
 	err = fB.fBUsecase.Store(&fooBar)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
@@ -113,7 +109,6 @@ func (fB *FoobarHandler) Store(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
 	return c.JSON(http.StatusCreated, response.Response{
 		StatusCode: http.StatusCreated,
 		Message:    message.GenerateMessage(fooBar.ID, "POST", model, true),
@@ -134,7 +129,6 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
 	err = c.Validate(fooBar)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
@@ -143,7 +137,6 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 			Data:       err,
 		})
 	}
-
 	_, err = fB.fBUsecase.GetByID(fooBar.ID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
@@ -152,7 +145,6 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
 	err = fB.fBUsecase.Update(&fooBar)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
@@ -161,7 +153,6 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
 	return c.JSON(http.StatusCreated, response.Response{
 		StatusCode: http.StatusCreated,
 		Message:    message.GenerateMessage(fooBar.ID, "PATCH", model, true),
@@ -181,7 +172,6 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
 	fBar, err := fB.fBUsecase.GetByID(uid)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
@@ -190,7 +180,6 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
 	err = fB.fBUsecase.Delete(fBar.ID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
@@ -199,7 +188,6 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-
 	return c.JSON(http.StatusOK, response.Response{
 		StatusCode: http.StatusOK,
 		Message:    message.GenerateMessage(uid, "DELETE", model, true),

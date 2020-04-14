@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -25,7 +24,6 @@ func (user User) BeforeCreate(scope *gorm.Scope) (err error) {
 		return err
 	}
 	user.Password = string(hashedPassword)
-	fmt.Println(user.Password)
 	scope.SetColumn("Password", string(user.Password))
 	scope.SetColumn("ID", uuid.NewV4())
 	return nil
