@@ -28,6 +28,7 @@ type ISeed interface {
 func StoreTables() []interface{} {
 	return []interface{}{
 		models.Foobar{},
+		models.User{},
 	}
 }
 

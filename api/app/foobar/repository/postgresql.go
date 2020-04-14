@@ -38,7 +38,6 @@ func (pFb *postgreFoobarRepo) Fetch() (*gorm.DB, *[]models.Foobar, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-
 	return db, fBars, nil
 }
 
@@ -62,7 +61,6 @@ func (pFb *postgreFoobarRepo) GetByID(id uuid.UUID) (*models.Foobar, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	pFb.Cache.Set(*fBar)
 	return fBar, nil
 }
@@ -97,7 +95,6 @@ func (pFb *postgreFoobarRepo) Update(FBar *models.Foobar) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -115,6 +112,5 @@ func (pFb *postgreFoobarRepo) Delete(id uuid.UUID) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }

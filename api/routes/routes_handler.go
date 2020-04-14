@@ -5,6 +5,10 @@ import (
 	"log"
 	"net/http"
 
+	_userApi "github.com/muhammadisa/go-service-boilerplate/api/app/user/delivery/http"
+	_userRepo "github.com/muhammadisa/go-service-boilerplate/api/app/user/repository"
+	_userUsecase "github.com/muhammadisa/go-service-boilerplate/api/app/user/usecase"
+
 	_aliyunOSSApi "github.com/muhammadisa/go-service-boilerplate/api/app/aliyunoss/delivery/http"
 	_aliyunOSSRepo "github.com/muhammadisa/go-service-boilerplate/api/app/aliyunoss/repository"
 	_aliyunOSSUsecase "github.com/muhammadisa/go-service-boilerplate/api/app/aliyunoss/usecase"
@@ -61,6 +65,7 @@ func (rc RouteConfigs) NewHTTPRoute() {
 	handler.setInitRoutes()
 
 	// Internal routers
+	handler.initUserRoutes()
 	handler.initFoobarRoutes()
 	handler.initAliyunOSSRoutes()
 
@@ -94,6 +99,11 @@ func (r *Routes) setInitRoutes() {
 }
 
 // Create route initialization function here
+func (r *Routes) initUserRoutes() {
+	userRepo := _userRepo.NewPostgresUserRepo(r.DB, r.Cache)
+	userUsecase := _userUsecase.NewUserUsecase(userRepo)
+	_userApi.NewUserHandler(r.Group, userUsecase)
+}
 
 func (r *Routes) initFoobarRoutes() {
 	foobarRepo := _foobarRepo.NewPostgresFoobarRepo(r.DB, r.Cache)
