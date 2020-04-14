@@ -9,7 +9,6 @@ import (
 	"github.com/muhammadisa/go-service-boilerplate/api/models"
 	"github.com/muhammadisa/go-service-boilerplate/api/response"
 	"github.com/muhammadisa/go-service-boilerplate/api/utils/message"
-	uuid "github.com/satori/go.uuid"
 )
 
 // UserHandler struct
@@ -39,31 +38,31 @@ func (uS *UserHandler) Login(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "POST", model, false),
-			Data:       err,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 	err = c.Validate(usr)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "POST", model, false),
-			Data:       err,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 	authUsr, err := uS.uSUsecase.Login(&usr)
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, response.Response{
 			StatusCode: http.StatusUnauthorized,
-			Message:    message.GenerateMessage(uuid.Nil, "POST", model, false),
-			Data:       err,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 	return c.JSON(http.StatusOK, response.Response{
 		StatusCode: http.StatusOK,
 		Message:    message.GenerateMessage(usr.ID, "POST", model, true),
 		Data: auth.Authenticated{
-			Data: authUsr,
+			User: authUsr,
 		},
 	})
 }
@@ -77,29 +76,29 @@ func (uS *UserHandler) Register(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "POST", model, false),
-			Data:       err,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 	err = c.Validate(usr)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "POST", model, false),
-			Data:       err,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 	err = uS.uSUsecase.Register(&usr)
 	if err != nil {
-		return c.JSON(http.StatusUnauthorized, response.Response{
-			StatusCode: http.StatusUnauthorized,
-			Message:    message.GenerateMessage(uuid.Nil, "POST", model, false),
-			Data:       err,
+		return c.JSON(http.StatusBadRequest, response.Response{
+			StatusCode: http.StatusBadRequest,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 	return c.JSON(http.StatusCreated, response.Response{
 		StatusCode: http.StatusCreated,
 		Message:    message.GenerateMessage(usr.ID, "POST", model, true),
-		Data:       err,
+		Data:       usr,
 	})
 }

@@ -4,7 +4,7 @@ import "golang.org/x/crypto/bcrypt"
 
 // Authenticated struct
 type Authenticated struct {
-	Data         interface{} `json:"data"`
+	User         interface{} `json:"user"`
 	RefreshToken string      `json:"refresh_token"`
 	AccessToken  string      `json:"access_token"`
 }

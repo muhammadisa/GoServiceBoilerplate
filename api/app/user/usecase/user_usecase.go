@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"fmt"
+	"errors"
 	"time"
 
 	"github.com/muhammadisa/go-service-boilerplate/api/app/user"
@@ -26,7 +26,7 @@ func (uS userUsecase) Login(usr *models.User) (*models.User, error) {
 	uSr, err := uS.userRepository.Login(usr)
 	err = auth.VerifyPassword(uSr.Password, usr.Password)
 	if err != nil {
-		return nil, fmt.Errorf("Email or Password is incorrect")
+		return nil, errors.New("Email or Password is incorrect")
 	}
 	if err != nil {
 		return nil, err

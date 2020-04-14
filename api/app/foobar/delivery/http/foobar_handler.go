@@ -46,7 +46,7 @@ func (fB *FoobarHandler) Fetch(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
 			StatusCode: http.StatusUnprocessableEntity,
-			Message:    message.GenerateMessage(uuid.Nil, "GET", model, false),
+			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
@@ -69,7 +69,7 @@ func (fB *FoobarHandler) GetByID(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
-			Message:    message.GenerateMessage(uuid.Nil, "GET", model, false),
+			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
@@ -89,23 +89,23 @@ func (fB *FoobarHandler) Store(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "POST", model, false),
-			Data:       err,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 	err = c.Validate(fooBar)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "POST", model, false),
-			Data:       err,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 	err = fB.fBUsecase.Store(&fooBar)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "POST", model, false),
+			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
@@ -125,7 +125,7 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "PATCH", model, false),
+			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
@@ -141,7 +141,7 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
-			Message:    message.GenerateMessage(uuid.Nil, "PATCH", model, false),
+			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
@@ -149,7 +149,7 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "PATCH", model, false),
+			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
@@ -168,7 +168,7 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
-			Message:    message.GenerateMessage(uuid.Nil, "DELETE", model, false),
+			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
@@ -176,7 +176,7 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
-			Message:    message.GenerateMessage(uid, "DELETE", model, false),
+			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
@@ -184,7 +184,7 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
-			Message:    message.GenerateMessage(uid, "DELETE", model, false),
+			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
