@@ -3,7 +3,6 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 	"time"
@@ -85,7 +84,6 @@ func JWTTokenValidate(c echo.Context) error {
 func Pretty(data interface{}) {
 	_, err := json.MarshalIndent(data, "", "")
 	if err != nil {
-		log.Println(err)
 		return
 	}
 }
