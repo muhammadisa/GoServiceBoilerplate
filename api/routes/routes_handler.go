@@ -8,6 +8,7 @@ import (
 	_userApi "github.com/muhammadisa/go-service-boilerplate/api/app/user/delivery/http"
 	_userRepo "github.com/muhammadisa/go-service-boilerplate/api/app/user/repository"
 	_userUsecase "github.com/muhammadisa/go-service-boilerplate/api/app/user/usecase"
+	"github.com/muhammadisa/go-service-boilerplate/api/utils/customvalidator"
 
 	_aliyunOSSApi "github.com/muhammadisa/go-service-boilerplate/api/app/aliyunoss/delivery/http"
 	_aliyunOSSRepo "github.com/muhammadisa/go-service-boilerplate/api/app/aliyunoss/repository"
@@ -23,7 +24,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/muhammadisa/go-service-boilerplate/api/response"
-	"github.com/muhammadisa/go-service-boilerplate/api/utils/customvalidator"
 )
 
 // Routes struct
@@ -60,7 +60,7 @@ func (rc RouteConfigs) NewHTTPRoute() {
 		DB:    rc.DB,
 		Cache: rc.Cache,
 	}
-	handler.Echo.Validator = customvalidator.CustomValidator{Validator: validator.New()}
+	handler.Echo.Validator = &customvalidator.CustomValidator{Validator: validator.New()}
 	handler.setupMiddleware(rc.APISecret, rc.Origins)
 	handler.setInitRoutes()
 
