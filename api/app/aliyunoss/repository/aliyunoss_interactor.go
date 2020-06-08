@@ -19,7 +19,10 @@ func NewAliyunOSSInteractorRepo() aliyunoss.Repository {
 	return &aliyunOSSInteractorRepo{}
 }
 
-func (i *aliyunOSSInteractorRepo) GetObjects(bucketName string) (*oss.ListObjectsResult, error) {
+func (aoInteractor *aliyunOSSInteractorRepo) GetObjects(bucketName string) (
+	*oss.ListObjectsResult,
+	error,
+) {
 	client, _, err := aliyun.CreateAliyunOSSClient()
 	if err != nil {
 		return nil, err
@@ -35,7 +38,7 @@ func (i *aliyunOSSInteractorRepo) GetObjects(bucketName string) (*oss.ListObject
 	return &lsRes, nil
 }
 
-func (i *aliyunOSSInteractorRepo) GetBuckets() (*oss.ListBucketsResult, error) {
+func (aoInteractor *aliyunOSSInteractorRepo) GetBuckets() (*oss.ListBucketsResult, error) {
 	client, _, err := aliyun.CreateAliyunOSSClient()
 	if err != nil {
 		return nil, err
@@ -47,7 +50,7 @@ func (i *aliyunOSSInteractorRepo) GetBuckets() (*oss.ListBucketsResult, error) {
 	return &lsRes, nil
 }
 
-func (i *aliyunOSSInteractorRepo) StoreObject(
+func (aoInteractor *aliyunOSSInteractorRepo) StoreObject(
 	e echo.Context, bucketName string, tag string,
 ) (string, error) {
 	client, publicEndpoint, err := aliyun.CreateAliyunOSSClient()
@@ -80,7 +83,7 @@ func (i *aliyunOSSInteractorRepo) StoreObject(
 	return fmt.Sprintf("https://%s.%s/%s", bucketName, publicEndpoint, objectKey), nil
 }
 
-func (i *aliyunOSSInteractorRepo) Delete(bucketName string, objectKey string) error {
+func (aoInteractor *aliyunOSSInteractorRepo) Delete(bucketName string, objectKey string) error {
 	client, _, err := aliyun.CreateAliyunOSSClient()
 	if err != nil {
 		return err

@@ -12,36 +12,36 @@ type aliyunOSSUsecase struct {
 }
 
 // NewAliyunOSSUsecase function
-func NewAliyunOSSUsecase(aO aliyunoss.Repository) aliyunoss.Usecase {
+func NewAliyunOSSUsecase(aoUsecase aliyunoss.Repository) aliyunoss.Usecase {
 	return &aliyunOSSUsecase{
-		aliyunOSSRepository: aO,
+		aliyunOSSRepository: aoUsecase,
 	}
 }
 
-func (aO aliyunOSSUsecase) GetBuckets() (*oss.ListBucketsResult, error) {
-	buckets, err := aO.aliyunOSSRepository.GetBuckets()
+func (aoUsecase aliyunOSSUsecase) GetBuckets() (*oss.ListBucketsResult, error) {
+	buckets, err := aoUsecase.aliyunOSSRepository.GetBuckets()
 	if err != nil {
 		return nil, err
 	}
 	return buckets, nil
 }
 
-func (aO aliyunOSSUsecase) GetObjects(bucketName string) (*oss.ListObjectsResult, error) {
-	aliyunObjects, err := aO.aliyunOSSRepository.GetObjects(bucketName)
+func (aoUsecase aliyunOSSUsecase) GetObjects(bucketName string) (*oss.ListObjectsResult, error) {
+	aliyunObjects, err := aoUsecase.aliyunOSSRepository.GetObjects(bucketName)
 	if err != nil {
 		return nil, err
 	}
 	return aliyunObjects, nil
 }
 
-func (aO aliyunOSSUsecase) StoreObject(e echo.Context, bucketName string, tag string) (string, error) {
-	publicEndpoint, err := aO.aliyunOSSRepository.StoreObject(e, bucketName, tag)
+func (aoUsecase aliyunOSSUsecase) StoreObject(e echo.Context, bucketName string, tag string) (string, error) {
+	publicEndpoint, err := aoUsecase.aliyunOSSRepository.StoreObject(e, bucketName, tag)
 	if err != nil {
 		return "", err
 	}
 	return publicEndpoint, nil
 }
 
-func (aO aliyunOSSUsecase) Delete(bucketName string, objectKey string) error {
-	return aO.aliyunOSSRepository.Delete(bucketName, objectKey)
+func (aoUsecase aliyunOSSUsecase) Delete(bucketName string, objectKey string) error {
+	return aoUsecase.aliyunOSSRepository.Delete(bucketName, objectKey)
 }

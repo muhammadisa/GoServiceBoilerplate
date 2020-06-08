@@ -28,8 +28,8 @@ func NewAliyunOSSHandler(e *echo.Group, aOu aliyunoss.Usecase) {
 }
 
 // GetBuckets Get aliyun oss buckets data
-func (aO *AliyunOSSHandler) GetBuckets(c echo.Context) error {
-	buckets, err := aO.aOUsecase.GetBuckets()
+func (aoHandler *AliyunOSSHandler) GetBuckets(c echo.Context) error {
+	buckets, err := aoHandler.aOUsecase.GetBuckets()
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
 			StatusCode: http.StatusUnprocessableEntity,
@@ -47,10 +47,10 @@ func (aO *AliyunOSSHandler) GetBuckets(c echo.Context) error {
 }
 
 // GetObjects Get aliyun oss objects from bucket data
-func (aO *AliyunOSSHandler) GetObjects(c echo.Context) error {
+func (aoHandler *AliyunOSSHandler) GetObjects(c echo.Context) error {
 	bucket := c.QueryParam("bucket")
 
-	aliyunObjects, err := aO.aOUsecase.GetObjects(bucket)
+	aliyunObjects, err := aoHandler.aOUsecase.GetObjects(bucket)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
 			StatusCode: http.StatusUnprocessableEntity,
@@ -68,8 +68,12 @@ func (aO *AliyunOSSHandler) GetObjects(c echo.Context) error {
 }
 
 // Store file aliyun oss
-func (aO *AliyunOSSHandler) Store(c echo.Context) error {
-	publicEndpoint, err := aO.aOUsecase.StoreObject(c, c.FormValue("bucket"), c.FormValue("tag"))
+func (aoHandler *AliyunOSSHandler) Store(c echo.Context) error {
+	publicEndpoint, err := aoHandler.aOUsecase.StoreObject(
+		c,
+		c.FormValue("bucket"),
+		c.FormValue("tag"),
+	)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
 			StatusCode: http.StatusUnprocessableEntity,
@@ -87,9 +91,9 @@ func (aO *AliyunOSSHandler) Store(c echo.Context) error {
 }
 
 // Delete rolling back file from aliyun oss
-func (aO *AliyunOSSHandler) Delete(c echo.Context) error {
+func (aoHandler *AliyunOSSHandler) Delete(c echo.Context) error {
 	bucket, key := c.Param("bucket"), c.Param("key")
-	err := aO.aOUsecase.Delete(bucket, key)
+	err := aoHandler.aOUsecase.Delete(bucket, key)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
 			StatusCode: http.StatusUnprocessableEntity,
