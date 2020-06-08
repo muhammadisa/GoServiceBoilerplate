@@ -49,13 +49,18 @@ func (s *server) transformFoobarRPC(fBar *models.Foobar) *foobar_grpc.Foobar {
 }
 
 func (s *server) transformFoobarData(fBar *foobar_grpc.Foobar) *models.Foobar {
-	UpdatedAt := time.Unix(fBar.GetUpdatedAt().GetSeconds(), 0)
-	CreatedAt := time.Unix(fBar.GetCreatedAt().GetSeconds(), 0)
+	var UpdatedAt = time.Unix(time.Now().Unix(), 0)
+	var CreatedAt = time.Unix(time.Now().Unix(), 0)
 
 	id, err := uuid.FromString(fBar.ID)
 	if err != nil {
 		fmt.Printf("Something went wrong: %s", err)
 	}
+	if id != uuid.Nil {
+		CreatedAt = time.Unix(fBar.GetCreatedAt().GetSeconds(), 0)
+		UpdatedAt = time.Unix(time.Now().Unix(), 0)
+	}
+
 	res := &models.Foobar{
 		ID:            id,
 		FoobarContent: fBar.FoobarContent,
@@ -127,6 +132,7 @@ func (s *server) UpdateFoobar(
 		return nil, fmt.Errorf("Foobar is Not Found")
 	}
 
+	fB.CreatedAt = existed.CreatedAt
 	err = s.usecase.Update(fB)
 	if err != nil {
 		log.Println(err.Error())

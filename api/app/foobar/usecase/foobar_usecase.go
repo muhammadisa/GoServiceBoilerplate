@@ -15,41 +15,41 @@ type foobarUsecase struct {
 }
 
 // NewFoobarUsecase function
-func NewFoobarUsecase(fB foobar.Repository) foobar.Usecase {
+func NewFoobarUsecase(fbUsecase foobar.Repository) foobar.Usecase {
 	return &foobarUsecase{
-		foobarRepository: fB,
+		foobarRepository: fbUsecase,
 	}
 }
 
-func (fB foobarUsecase) Fetch() (*gorm.DB, *[]models.Foobar, error) {
-	db, res, err := fB.foobarRepository.Fetch()
+func (fbUsecase foobarUsecase) Fetch() (*gorm.DB, *[]models.Foobar, error) {
+	db, res, err := fbUsecase.foobarRepository.Fetch()
 	if err != nil {
 		return nil, nil, err
 	}
 	return db, res, nil
 }
 
-func (fB foobarUsecase) GetByID(id uuid.UUID) (*models.Foobar, error) {
-	res, err := fB.foobarRepository.GetByID(id)
+func (fbUsecase foobarUsecase) GetByID(id uuid.UUID) (*models.Foobar, error) {
+	res, err := fbUsecase.foobarRepository.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
 }
 
-func (fB foobarUsecase) Store(FBar *models.Foobar) error {
-	err := fB.foobarRepository.Store(FBar)
+func (fbUsecase foobarUsecase) Store(fbUsecasear *models.Foobar) error {
+	err := fbUsecase.foobarRepository.Store(fbUsecasear)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (fB foobarUsecase) Update(FBar *models.Foobar) error {
-	FBar.UpdatedAt = time.Now()
-	return fB.foobarRepository.Update(FBar)
+func (fbUsecase foobarUsecase) Update(fbUsecasear *models.Foobar) error {
+	fbUsecasear.UpdatedAt = time.Now()
+	return fbUsecase.foobarRepository.Update(fbUsecasear)
 }
 
-func (fB foobarUsecase) Delete(id uuid.UUID) error {
-	return fB.foobarRepository.Delete(id)
+func (fbUsecase foobarUsecase) Delete(id uuid.UUID) error {
+	return fbUsecase.foobarRepository.Delete(id)
 }

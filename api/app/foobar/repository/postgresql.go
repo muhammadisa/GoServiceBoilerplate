@@ -23,11 +23,11 @@ func NewPostgresFoobarRepo(db *gorm.DB, cacheClient cache.Redis) foobar.Reposito
 	}
 }
 
-func (pFb *postgreFoobarRepo) Fetch() (*gorm.DB, *[]models.Foobar, error) {
+func (fbRepository *postgreFoobarRepo) Fetch() (*gorm.DB, *[]models.Foobar, error) {
 	var err error
 	var fBars *[]models.Foobar = &[]models.Foobar{}
 
-	db := pFb.DB.Model(
+	db := fbRepository.DB.Model(
 		&models.Foobar{},
 	).Order(
 		"created_at asc",
@@ -41,16 +41,16 @@ func (pFb *postgreFoobarRepo) Fetch() (*gorm.DB, *[]models.Foobar, error) {
 	return db, fBars, nil
 }
 
-func (pFb *postgreFoobarRepo) GetByID(id uuid.UUID) (*models.Foobar, error) {
+func (fbRepository *postgreFoobarRepo) GetByID(id uuid.UUID) (*models.Foobar, error) {
 	var err error
 	var fBar *models.Foobar = &models.Foobar{}
 
-	cache := pFb.Cache.Get(cache.Key(models.Foobar{}, id))
+	cache := fbRepository.Cache.Get(cache.Key(models.Foobar{}, id))
 	if cache != "nil" && cache != "" {
 		json.Unmarshal([]byte(cache), &fBar)
 		return fBar, nil
 	}
-	err = pFb.DB.Model(
+	err = fbRepository.DB.Model(
 		&models.Foobar{},
 	).Where(
 		"id = ?",
@@ -61,14 +61,14 @@ func (pFb *postgreFoobarRepo) GetByID(id uuid.UUID) (*models.Foobar, error) {
 	if err != nil {
 		return nil, err
 	}
-	pFb.Cache.Set(*fBar)
+	fbRepository.Cache.Set(*fBar)
 	return fBar, nil
 }
 
-func (pFb *postgreFoobarRepo) Store(FBar *models.Foobar) error {
+func (fbRepository *postgreFoobarRepo) Store(FBar *models.Foobar) error {
 	var err error
 
-	err = pFb.DB.Model(
+	err = fbRepository.DB.Model(
 		&models.Foobar{},
 	).Create(
 		FBar,
@@ -80,10 +80,10 @@ func (pFb *postgreFoobarRepo) Store(FBar *models.Foobar) error {
 	return nil
 }
 
-func (pFb *postgreFoobarRepo) Update(FBar *models.Foobar) error {
+func (fbRepository *postgreFoobarRepo) Update(FBar *models.Foobar) error {
 	var err error
 
-	err = pFb.DB.Model(
+	err = fbRepository.DB.Model(
 		&models.Foobar{},
 	).Where(
 		"id = ?",
@@ -98,10 +98,10 @@ func (pFb *postgreFoobarRepo) Update(FBar *models.Foobar) error {
 	return nil
 }
 
-func (pFb *postgreFoobarRepo) Delete(id uuid.UUID) error {
+func (fbRepository *postgreFoobarRepo) Delete(id uuid.UUID) error {
 	var err error
 
-	err = pFb.DB.Model(
+	err = fbRepository.DB.Model(
 		&models.Foobar{},
 	).Where(
 		"id = ?",

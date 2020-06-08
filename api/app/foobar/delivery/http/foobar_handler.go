@@ -16,13 +16,13 @@ import (
 
 // FoobarHandler struct
 type FoobarHandler struct {
-	fBUsecase foobar.Usecase
+	fbUsecase foobar.Usecase
 }
 
 // NewFoobarHandler initialize enpoints
 func NewFoobarHandler(e *echo.Group, fBu foobar.Usecase) {
 	handler := &FoobarHandler{
-		fBUsecase: fBu,
+		fbUsecase: fBu,
 	}
 	e.GET("/foobars/", handler.Fetch)
 	e.GET("/foobar/:id", handler.GetByID)
@@ -36,13 +36,13 @@ var (
 )
 
 // Fetch foobar data
-func (fB *FoobarHandler) Fetch(c echo.Context) error {
+func (fbHandler *FoobarHandler) Fetch(c echo.Context) error {
 	var err error
 
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	limit, _ := strconv.Atoi(c.QueryParam("limit"))
 
-	db, fBars, err := fB.fBUsecase.Fetch()
+	db, fBars, err := fbHandler.fbUsecase.Fetch()
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
 			StatusCode: http.StatusUnprocessableEntity,
@@ -58,14 +58,14 @@ func (fB *FoobarHandler) Fetch(c echo.Context) error {
 }
 
 // GetByID foobar data
-func (fB *FoobarHandler) GetByID(c echo.Context) error {
+func (fbHandler *FoobarHandler) GetByID(c echo.Context) error {
 	var err error
 
 	uid, err := uuid.FromString(c.Param("id"))
 	if err != nil {
 		fmt.Printf("Something went wrong: %s", err)
 	}
-	fBar, err := fB.fBUsecase.GetByID(uid)
+	fBar, err := fbHandler.fbUsecase.GetByID(uid)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
@@ -81,7 +81,7 @@ func (fB *FoobarHandler) GetByID(c echo.Context) error {
 }
 
 // Store foobar data
-func (fB *FoobarHandler) Store(c echo.Context) error {
+func (fbHandler *FoobarHandler) Store(c echo.Context) error {
 	var err error
 	var fooBar models.Foobar
 
@@ -101,7 +101,7 @@ func (fB *FoobarHandler) Store(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-	err = fB.fBUsecase.Store(&fooBar)
+	err = fbHandler.fbUsecase.Store(&fooBar)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
@@ -117,7 +117,7 @@ func (fB *FoobarHandler) Store(c echo.Context) error {
 }
 
 // Update foobar data
-func (fB *FoobarHandler) Update(c echo.Context) error {
+func (fbHandler *FoobarHandler) Update(c echo.Context) error {
 	var err error
 	var fooBar models.Foobar
 
@@ -137,7 +137,7 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 			Data:       err,
 		})
 	}
-	_, err = fB.fBUsecase.GetByID(fooBar.ID)
+	_, err = fbHandler.fbUsecase.GetByID(fooBar.ID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
@@ -145,7 +145,7 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-	err = fB.fBUsecase.Update(&fooBar)
+	err = fbHandler.fbUsecase.Update(&fooBar)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response{
 			StatusCode: http.StatusBadRequest,
@@ -161,7 +161,7 @@ func (fB *FoobarHandler) Update(c echo.Context) error {
 }
 
 // Delete foobar data
-func (fB *FoobarHandler) Delete(c echo.Context) error {
+func (fbHandler *FoobarHandler) Delete(c echo.Context) error {
 	var err error
 
 	uid, err := uuid.FromString(c.Param("id"))
@@ -172,7 +172,7 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-	fBar, err := fB.fBUsecase.GetByID(uid)
+	fBar, err := fbHandler.fbUsecase.GetByID(uid)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
@@ -180,7 +180,7 @@ func (fB *FoobarHandler) Delete(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-	err = fB.fBUsecase.Delete(fBar.ID)
+	err = fbHandler.fbUsecase.Delete(fBar.ID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.Response{
 			StatusCode: http.StatusNotFound,
