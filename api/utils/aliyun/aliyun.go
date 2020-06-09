@@ -22,9 +22,9 @@ func FileTagValidator(tag string) (string, error) {
 
 	var usedTag string
 
-	for indexValidTag := range validTags {
-		if tag == validTags[indexValidTag] {
-			usedTag = validTags[indexValidTag]
+	for _, value := range validTags {
+		if tag == value {
+			usedTag = value
 			break
 		}
 	}
