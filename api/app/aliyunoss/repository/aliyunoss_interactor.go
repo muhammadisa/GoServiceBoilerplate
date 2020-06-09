@@ -83,7 +83,9 @@ func (aoInteractor *aliyunOSSInteractorRepo) StoreObject(
 	return fmt.Sprintf("https://%s.%s/%s", bucketName, publicEndpoint, objectKey), nil
 }
 
-func (aoInteractor *aliyunOSSInteractorRepo) Delete(bucketName string, objectKey string) error {
+func (aoInteractor *aliyunOSSInteractorRepo) Delete(
+	bucketName string, objectKey string,
+) error {
 	client, _, err := aliyun.CreateAliyunOSSClient()
 	if err != nil {
 		return err
