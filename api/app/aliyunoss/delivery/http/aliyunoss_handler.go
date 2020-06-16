@@ -86,7 +86,10 @@ func (aoHandler *AliyunOSSHandler) Store(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Response{
 		StatusCode: http.StatusOK,
 		Message:    message.GenerateMessage(uuid.Nil, "POST", c.File, true),
-		Data:       publicEndpoint,
+		Data: map[string]string{
+			"file_url": publicEndpoint[0],
+			"object":   publicEndpoint[1],
+		},
 	})
 }
 

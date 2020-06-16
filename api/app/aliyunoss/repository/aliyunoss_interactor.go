@@ -52,35 +52,38 @@ func (aoInteractor *aliyunOSSInteractorRepo) GetBuckets() (*oss.ListBucketsResul
 
 func (aoInteractor *aliyunOSSInteractorRepo) StoreObject(
 	e echo.Context, bucketName string, tag string,
-) (string, error) {
+) ([]string, error) {
 	client, publicEndpoint, err := aliyun.CreateAliyunOSSClient()
 	if err != nil {
-		return "", err
+		return []string{}, err
 	}
 	fileHeader, err := e.FormFile("file")
 	if err != nil {
-		return "", errors.New("Problem with file which you choose")
+		return []string{}, errors.New("Problem with file which you choose")
 	}
 	f, err := fileHeader.Open()
 	if err != nil {
-		return "", errors.New("Problem with file which you choose")
+		return []string{}, errors.New("Problem with file which you choose")
 	}
 	fileTimestamp := time.Now().Format("20060102-150405")
 	fileType := strings.Split(fileHeader.Filename, ".")
 	if len(fileType) != 2 {
-		return "", errors.New("Unformatted file doesn't allowed to upload")
+		return []string{}, errors.New("Unformatted file doesn't allowed to upload")
 	}
 	objectKey := fmt.Sprintf("file-tag-%s-%s.%s", tag, fileTimestamp, fileType[1])
 
 	bucket, err := client.Bucket(bucketName)
 	if err != nil {
-		return "", err
+		return []string{}, err
 	}
 	err = bucket.PutObject(objectKey, f)
 	if err != nil {
-		return "", err
+		return []string{}, err
 	}
-	return fmt.Sprintf("https://%s.%s/%s", bucketName, publicEndpoint, objectKey), nil
+	return []string{
+		fmt.Sprintf("https://%s.%s/%s", bucketName, publicEndpoint, objectKey),
+		objectKey,
+	}, nil
 }
 
 func (aoInteractor *aliyunOSSInteractorRepo) Delete(

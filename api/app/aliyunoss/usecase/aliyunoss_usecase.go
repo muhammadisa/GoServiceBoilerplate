@@ -34,10 +34,13 @@ func (aoUsecase aliyunOSSUsecase) GetObjects(bucketName string) (*oss.ListObject
 	return aliyunObjects, nil
 }
 
-func (aoUsecase aliyunOSSUsecase) StoreObject(e echo.Context, bucketName string, tag string) (string, error) {
+func (aoUsecase aliyunOSSUsecase) StoreObject(e echo.Context, bucketName string, tag string) (
+	[]string,
+	error,
+) {
 	publicEndpoint, err := aoUsecase.aliyunOSSRepository.StoreObject(e, bucketName, tag)
 	if err != nil {
-		return "", err
+		return []string{}, err
 	}
 	return publicEndpoint, nil
 }
