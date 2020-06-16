@@ -77,9 +77,8 @@ func (aoHandler *AliyunOSSHandler) Store(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, response.Response{
 			StatusCode: http.StatusUnprocessableEntity,
-			Message: message.GenerateMessage(uuid.Nil, "POST", c.File, false) +
-				" Cannot put objects",
-			Data: nil,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 

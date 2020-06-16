@@ -16,6 +16,7 @@ require (
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/muhammadisa/restful-api-boilerplate v0.0.0-20200409074601-c634dce715d9
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/satori/go.uuid v1.2.0
 	github.com/sethvargo/go-password v0.1.3
 	github.com/spf13/cobra v1.0.0
