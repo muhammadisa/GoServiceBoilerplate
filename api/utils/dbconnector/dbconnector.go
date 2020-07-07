@@ -7,7 +7,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mssql"    // MSSql Driver
 	_ "github.com/jinzhu/gorm/dialects/mysql"    // MySql Driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" // Postgres Driver
-	_ "github.com/jinzhu/gorm/dialects/sqlite"   // Sqlite Driver
 
 	"github.com/jinzhu/gorm"
 )
@@ -57,10 +56,6 @@ func (dbCredential DBCredential) Connect() (*gorm.DB, error) {
 			dbCredential.DBHost,
 			dbCredential.DBPort,
 			dbCredential.DBName,
-		)),
-		fmt.Sprintf("sqlite~%s", fmt.Sprintf(
-			"%s",
-			dbCredential.DBSqlitePath,
 		)),
 	}
 
