@@ -9,26 +9,26 @@ Go web service boilerplate with two communication layer (Restful and gRPC)
 Before run this project please run these commands first
 
 ```bash
-go get gopkg.in/go-playground/validator.v9
-go get github.com/labstack/echo/v4
-go get github.com/rs/cors
-go get github.com/spf13/cobra
-go get golang.org/x/crypto/bcrypt
-go get github.com/sethvargo/go-password/password
-go get github.com/dgrijalva/jwt-go
-go get github.com/joho/godotenv
-go get github.com/jinzhu/gorm
-go get github.com/biezhi/gorm-paginator/pagination
-go get gopkg.in/go-playground/assert.v1
-go get github.com/jinzhu/gorm/dialects/mysql
-go get github.com/jinzhu/gorm/dialects/postgres
-go get github.com/jinzhu/gorm/dialects/sqlite
-go get github.com/jinzhu/gorm/dialects/mssql
-go get google.golang.org/grpc
-go get github.com/golang/protobuf/protoc-gen-go
-go get github.com/go-redis/redis/v7
-go get github.com/satori/go.uuid
-go get github.com/aliyun/aliyun-oss-go-sdk/oss
+go get -u gopkg.in/go-playground/validator.v9
+go get -u github.com/labstack/echo/v4
+go get -u github.com/rs/cors
+go get -u github.com/spf13/cobra
+go get -u golang.org/x/crypto/bcrypt
+go get -u github.com/sethvargo/go-password/password
+go get -u github.com/dgrijalva/jwt-go
+go get -u github.com/joho/godotenv
+go get -u github.com/jinzhu/gorm
+go get -u github.com/biezhi/gorm-paginator/pagination
+go get -u gopkg.in/go-playground/assert.v1
+go get -u github.com/jinzhu/gorm/dialects/mysql
+go get -u github.com/jinzhu/gorm/dialects/postgres
+go get -u github.com/jinzhu/gorm/dialects/sqlite
+go get -u github.com/jinzhu/gorm/dialects/mssql
+go get -u google.golang.org/grpc
+go get -u github.com/golang/protobuf/protoc-gen-go
+go get -u github.com/go-redis/redis/v7
+go get -u github.com/satori/go.uuid
+go get -u github.com/aliyun/aliyun-oss-go-sdk/oss
 ```
 
 
